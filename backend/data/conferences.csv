@@ -1,0 +1,26 @@
+conference_id,name,full_name,abbreviation,classification
+1,ACC,Atlantic Coast Conference,ACC,fbs
+4,Big 12,Big 12 Conference,B12,fbs
+5,Big Ten,Big Ten Conference,B1G,fbs
+8,SEC,Southeastern Conference,SEC,fbs
+9,Pac-12,Pac-12 Conference,PAC,fbs
+12,Conference USA,Conference USA,CUSA,fbs
+15,Mid-American,Mid-American Conference,MAC,fbs
+17,Mountain West,Mountain West Conference,MWC,fbs
+18,FBS Independents,FBS Independents,Ind,fbs
+20,Big Sky,Big Sky Conference,BSKY,fcs
+21,MVFC,Missouri Valley Football Conference,MVFC,fcs
+22,Ivy,Ivy League,IVY,fcs
+24,MEAC,Mid-Eastern Athletic Conference,MEAC,fcs
+25,NEC,Northeast Conference,NEC,fcs
+26,OVC,Ohio Valley Conference,OVC,fcs
+27,Patriot,Patriot League,PAT,fcs
+28,Pioneer,Pioneer Football League,PFL,fcs
+29,Southern,Southern Conference,SOCON,fcs
+30,Southland,Southland Conference,SLC,fcs
+31,SWAC,Southwestern Athletic Conference,SWAC,fcs
+32,FCS Independents,FCS Independents,INDAA,fcs
+37,Sun Belt,Sun Belt Conference,SBC,fbs
+151,American Athletic,American Athletic Conference,AAC,fbs
+177,UAC,United Athletic Conference,UAC,fcs
+301,Coastal Athletic,Coastal Athletic Association Football Conference,CAA,fcs

@@ -1,0 +1,267 @@
+school_id,school,school_mascot,abbreviation,conference_id,division,classification,color,alternate_color,logo,stadium_name,school_city,school_state,stadium_latitude,stadium_longitude,stadium_elevation,stadium_capacity,stadium_grass,stadium_dome
+24,Stanford,Cardinal,STAN,1,,fbs,#8c1515,#ffffff,https://cdn.collegefootballdata.com/logos/500/24.png,Stanford Stadium,Stanford,CA,37.4345556,-122.1611271,18.38425636,50424,TRUE,FALSE
+25,California,Golden Bears,CAL,1,,fbs,#041e42,#ffc72c,https://cdn.collegefootballdata.com/logos/500/25.png,California Memorial Stadium,Berkeley,CA,37.8710434,-122.2507729,125.3108063,62467,FALSE,FALSE
+52,Florida State,Seminoles,FSU,1,,fbs,#782f40,#ceb888,https://cdn.collegefootballdata.com/logos/500/52.png,Doak Campbell Stadium,Tallahassee,FL,30.4381692,-84.3044032,19.55942535,67277,TRUE,FALSE
+59,Georgia Tech,Yellow Jackets,GT,1,,fbs,#b3a369,#ffffff,https://cdn.collegefootballdata.com/logos/500/59.png,Bobby Dodd Stadium,Atlanta,GA,33.7724449,-84.3928054,279.300415,55000,FALSE,FALSE
+97,Louisville,Cardinals,LOU,1,,fbs,#c9001f,#000000,https://cdn.collegefootballdata.com/logos/500/97.png,L&N Federal Credit Union Stadium,Louisville,KY,38.2057621,-85.7588141,138.5615997,60000,FALSE,FALSE
+103,Boston College,Eagles,BC,1,,fbs,#8c2232,#dbcca6,https://cdn.collegefootballdata.com/logos/500/103.png,"Alumni Stadium (Chestnut Hill, MA)",Chestnut Hill,MA,42.335104,-71.1664413,39.82634354,44500,FALSE,FALSE
+150,Duke,Blue Devils,DUKE,1,,fbs,#00539b,#ffffff,https://cdn.collegefootballdata.com/logos/500/150.png,Wallace Wade Stadium,Durham,NC,35.9953688,-78.9417564,103.0028152,40004,TRUE,FALSE
+152,NC State,Wolfpack,NCSU,1,,fbs,#cc0000,#ffffff,https://cdn.collegefootballdata.com/logos/500/152.png,Carter-Finley Stadium,Raleigh,NC,35.8008001,-78.7195655,117.0089951,58000,TRUE,FALSE
+153,North Carolina,Tar Heels,UNC,1,,fbs,#7bafd4,#13294b,https://cdn.collegefootballdata.com/logos/500/153.png,Kenan Stadium,Chapel Hill,NC,35.9069294,-79.0478889,127.7569809,50500,FALSE,FALSE
+154,Wake Forest,Demon Deacons,WAKE,1,,fbs,#ceb888,#2c2a29,https://cdn.collegefootballdata.com/logos/500/154.png,Allegacy Federal Credit Union Stadium,Winston-Salem,NC,36.1305507,-80.2545851,283.548584,31500,FALSE,FALSE
+183,Syracuse,Orange,SYR,1,,fbs,#f76900,#000e54,https://cdn.collegefootballdata.com/logos/500/183.png,JMA Wireless Dome,Syracuse,NY,43.0362269,-76.1363161,162.6989746,49057,FALSE,TRUE
+221,Pittsburgh,Panthers,PITT,1,,fbs,#003594,#ffb81c,https://cdn.collegefootballdata.com/logos/500/221.png,Acrisure Stadium,Pittsburgh,PA,40.4467648,-80.0157603,220.5887146,68400,TRUE,FALSE
+228,Clemson,Tigers,CLEM,1,,fbs,#f56600,#522d80,https://cdn.collegefootballdata.com/logos/500/228.png,"Memorial Stadium (Clemson, SC)",Clemson,SC,34.6787737,-82.8432428,205.6452179,81500,TRUE,FALSE
+258,Virginia,Cavaliers,UVA,1,,fbs,#232d4b,#f84c1e,https://cdn.collegefootballdata.com/logos/500/258.png,Scott Stadium,Charlottesville,VA,38.0311801,-78.5137897,170.4677429,61500,TRUE,FALSE
+259,Virginia Tech,Hokies,VT,1,,fbs,#861f41,#e87722,https://cdn.collegefootballdata.com/logos/500/259.png,Lane Stadium,Blacksburg,VA,37.2199873,-80.4180643,632.2631226,65632,TRUE,FALSE
+2390,Miami,Hurricanes,MIA,1,,fbs,#f47321,#005030,https://cdn.collegefootballdata.com/logos/500/2390.png,Hard Rock Stadium,Miami Gardens,FL,25.9579665,-80.2388604,2.624486446,64767,FALSE,FALSE
+2567,SMU,Mustangs,SMU,1,,fbs,#d70000,#0033a1,https://cdn.collegefootballdata.com/logos/500/2567.png,Gerald J. Ford Stadium,University Park,TX,32.8377223,-96.7827859,169.4058075,32000,FALSE,FALSE
+5,UAB,Blazers,UAB,151,,fbs,#1a5632,#fdb913,https://cdn.collegefootballdata.com/logos/500/5.png,Protective Stadium,Birmingham,AL,33.5206824,-86.8024326,187,45000,FALSE,FALSE
+58,South Florida,Bulls,USF,151,,fbs,#006747,#cfc493,https://cdn.collegefootballdata.com/logos/500/58.png,Raymond James Stadium,Tampa,FL,27.9758691,-82.5033344,11.07972908,65828,TRUE,FALSE
+151,East Carolina,Pirates,ECU,151,,fbs,#592a8a,#fdc82f,https://cdn.collegefootballdata.com/logos/500/151.png,Dowdy-Ficklen Stadium,Greenville,NC,35.5968486,-77.364564,19.0564537,50000,TRUE,FALSE
+202,Tulsa,Golden Hurricane,TLSA,151,,fbs,#003595,#d0b787,https://cdn.collegefootballdata.com/logos/500/202.png,Chapman Stadium,Tulsa,OK,36.1489175,-95.9437853,235.5928345,30000,FALSE,FALSE
+218,Temple,Owls,TEM,151,,fbs,#a41e35,#ffffff,https://cdn.collegefootballdata.com/logos/500/218.png,Lincoln Financial Field,Philadelphia,PA,39.9007995,-75.1675414,3.198706865,69879,FALSE,FALSE
+235,Memphis,Tigers,MEM,151,,fbs,#00498f,#9c9ea1,https://cdn.collegefootballdata.com/logos/500/235.png,Simmons Bank Liberty Stadium,Memphis,TN,35.1209429,-89.977147,90.62445831,58325,FALSE,FALSE
+242,Rice,Owls,RICE,151,,fbs,#00205b,#c1c6c8,https://cdn.collegefootballdata.com/logos/500/242.png,Rice Stadium,Houston,TX,29.7163297,-95.4093261,7.148301601,47000,FALSE,FALSE
+249,North Texas,Mean Green,UNT,151,,fbs,#00853e,#ffffff,https://cdn.collegefootballdata.com/logos/500/249.png,DATCU Stadium,Denton,TX,33.203899,-97.159245,198.6871948,30850,FALSE,FALSE
+349,Army,Black Knights,ARMY,151,,fbs,#000000,#d3bc8d,https://cdn.collegefootballdata.com/logos/500/349.png,Michie Stadium,West Point,NY,41.3874924,-73.9640891,99.21277618,38000,FALSE,FALSE
+2226,Florida Atlantic,Owls,FAU,151,,fbs,#003366,#cc0000,https://cdn.collegefootballdata.com/logos/500/2226.png,FAU Stadium,Boca Raton,FL,26.3763763,-80.1015759,3.613628864,29419,FALSE,FALSE
+2426,Navy,Midshipmen,NAVY,151,,fbs,#00225b,#b5a67c,https://cdn.collegefootballdata.com/logos/500/2426.png,Navy-Marine Corps Memorial Stadium,Annapolis,MD,38.9846985,-76.5076335,10.74990082,34000,FALSE,FALSE
+2429,Charlotte,49ers,CLT,151,,fbs,#005035,#a49665,https://cdn.collegefootballdata.com/logos/500/2429.png,Jerry Richardson Stadium,Charlotte,NC,35.3105033,-80.7401194,190.365509,15300,FALSE,FALSE
+2636,UTSA,Roadrunners,UTSA,151,,fbs,#0c2340,#f15a22,https://cdn.collegefootballdata.com/logos/500/2636.png,Alamodome,San Antonio,TX,29.4169834,-98.4788143,201.5526886,36582,FALSE,TRUE
+2655,Tulane,Green Wave,TULN,151,,fbs,#006747,#418fde,https://cdn.collegefootballdata.com/logos/500/2655.png,Yulman Stadium,New Orleans,LA,29.944616,-90.116692,0,30000,FALSE,FALSE
+9,Arizona State,Sun Devils,ASU,4,,fbs,#ffc627,#8c1d40,https://cdn.collegefootballdata.com/logos/500/9.png,Mountain America Stadium,Tempe,AZ,33.4264471,-111.9325005,360.1569519,65870,TRUE,FALSE
+12,Arizona,Wildcats,ARIZ,4,,fbs,#cc0033,#003366,https://cdn.collegefootballdata.com/logos/500/12.png,Arizona Stadium,Tucson,AZ,32.2288054,-110.9488677,742.1530151,50782,FALSE,FALSE
+38,Colorado,Buffaloes,COLO,4,,fbs,#cfb87c,#000000,https://cdn.collegefootballdata.com/logos/500/38.png,Folsom Field,Boulder,CO,40.0094746,-105.266905,1634.041138,50183,TRUE,FALSE
+66,Iowa State,Cyclones,ISU,4,,fbs,#c8102e,#f1be48,https://cdn.collegefootballdata.com/logos/500/66.png,Jack Trice Stadium,Ames,IA,42.0139977,-93.6357716,274.9135437,61500,TRUE,FALSE
+197,Oklahoma State,Cowboys,OKST,4,,fbs,#fe5c00,#000000,https://cdn.collegefootballdata.com/logos/500/197.png,Boone Pickens Stadium,Stillwater,OK,36.125673,-97.066513,276.4808655,55509,FALSE,FALSE
+239,Baylor,Bears,BAY,4,,fbs,#154734,#ffb81c,https://cdn.collegefootballdata.com/logos/500/239.png,McLane Stadium,Waco,TX,31.5582015,-97.1156702,117.0538101,45140,FALSE,FALSE
+248,Houston,Cougars,HOU,4,,fbs,#c8102e,#ffffff,https://cdn.collegefootballdata.com/logos/500/248.png,TDECU Stadium,Houston,TX,29.7219885,-95.3491623,9.57440567,40000,FALSE,FALSE
+252,BYU,Cougars,BYU,4,,fbs,#003da5,#002e5d,https://cdn.collegefootballdata.com/logos/500/252.png,LaVell Edwards Stadium,Provo,UT,40.2575347,-111.6545247,1412.097046,63470,TRUE,FALSE
+254,Utah,Utes,UTAH,4,,fbs,#be0000,#ffffff,https://cdn.collegefootballdata.com/logos/500/254.png,Rice-Eccles Stadium,Salt Lake City,UT,40.7599724,-111.8488255,1411.543579,51444,FALSE,FALSE
+277,West Virginia,Mountaineers,WVU,4,,fbs,#eaaa00,#002855,https://cdn.collegefootballdata.com/logos/500/277.png,Milan Puskar Stadium,Morgantown,WV,39.6502744,-79.9551873,327.409668,60000,FALSE,FALSE
+2116,UCF,Knights,UCF,4,,fbs,#000000,#b4a169,https://cdn.collegefootballdata.com/logos/500/2116.png,FBC Mortgage Stadium,Orlando,FL,28.6079765,-81.1927233,20.94113731,44206,TRUE,FALSE
+2132,Cincinnati,Bearcats,CIN,4,,fbs,#000000,#e00122,https://cdn.collegefootballdata.com/logos/500/2132.png,Nippert Stadium,Cincinnati,OH,39.1312495,-84.5161913,230.0660553,40000,FALSE,FALSE
+2305,Kansas,Jayhawks,KU,4,,fbs,#0051ba,#e8000d,https://cdn.collegefootballdata.com/logos/500/2305.png,Memorial Stadium,Lawrence,KS,38.9629418,-95.2463686,274.855957,47000,FALSE,FALSE
+2306,Kansas State,Wildcats,KSU,4,,fbs,#512888,#ffffff,https://cdn.collegefootballdata.com/logos/500/2306.png,Bill Snyder Family Stadium,Manhattan,KS,39.2020096,-96.5938395,328.0574646,50000,FALSE,FALSE
+2628,TCU,Horned Frogs,TCU,4,,fbs,#4d1979,#ffffff,https://cdn.collegefootballdata.com/logos/500/2628.png,Amon G. Carter Stadium,Fort Worth,TX,32.7096604,-97.3680835,185.4387054,46000,TRUE,FALSE
+2641,Texas Tech,Red Raiders,TTU,4,,fbs,#c30020,#000000,https://cdn.collegefootballdata.com/logos/500/2641.png,Jones AT&T Stadium,Lubbock,TX,33.5910518,-101.8728824,980.7632446,60454,FALSE,FALSE
+13,Cal Poly,Mustangs,CP,20,,fcs,#1E4D2B,#eed897,https://cdn.collegefootballdata.com/logos/500/13.png,Alex G. Spanos Stadium,San Luis Obispo,CA,35.2984123,-120.6650005,84.6832428,11075,TRUE,FALSE
+70,Idaho,Vandals,IDHO,20,,fcs,#000000,#8c6e4a,https://cdn.collegefootballdata.com/logos/500/70.png,Kibbie Dome,Moscow,ID,46.7262921,-117.0173713,794.4794922,16000,FALSE,TRUE
+147,Montana State,Bobcats,MTST,20,,fcs,#00205c,#bc955c,https://cdn.collegefootballdata.com/logos/500/147.png,Bobcat Stadium,Bozeman,MT,45.659048,-111.049547,1507.508667,17000,FALSE,FALSE
+149,Montana,Grizzlies,MONT,20,,fcs,#751D4A,#666666,https://cdn.collegefootballdata.com/logos/500/149.png,Washington-Grizzly Stadium,Missoula,MT,46.8638753,-113.9815042,970.345459,25217,FALSE,FALSE
+253,Southern Utah,Thunderbirds,SUU,20,,fcs,#c72026,#000000,https://cdn.collegefootballdata.com/logos/500/253.png,Eccles Coliseum,Cedar City,UT,37.6757919,-113.0773938,1763.97644,10000,FALSE,FALSE
+302,UC Davis,Aggies,UCD,20,,fcs,#002855,#c3c4c6,https://cdn.collegefootballdata.com/logos/500/302.png,Aggie Stadium,Davis,CA,38.5365266,-121.7627936,11.3825922,10743,FALSE,FALSE
+304,Idaho State,Bengals,IDST,20,,fcs,#ef8c00,#e9a126,https://cdn.collegefootballdata.com/logos/500/304.png,Holt Arena,Pocatello,ID,42.8702052,-112.4281274,1390.252441,12000,FALSE,TRUE
+331,Eastern Washington,Eagles,EWU,20,,fcs,#a10022,#abb4bc,https://cdn.collegefootballdata.com/logos/500/331.png,Roos Field,Cheney,WA,47.49278,-117.587353,750.2774658,8500,FALSE,FALSE
+2458,Northern Colorado,Bears,UNCO,20,,fcs,#13558D,#ffc533,https://cdn.collegefootballdata.com/logos/500/2458.png,Nottingham Field,Greeley,CO,40.403493,-104.705139,1455.349976,8500,TRUE,FALSE
+2464,Northern Arizona,Lumberjacks,NAU,20,,fcs,#003976,#1b3069,https://cdn.collegefootballdata.com/logos/500/2464.png,Walkup Skydome,Flagstaff,AZ,35.1805483,-111.6528377,2097.884766,10000,FALSE,TRUE
+2502,Portland State,Vikings,PRST,20,,fcs,#00311e,#ebebeb,https://cdn.collegefootballdata.com/logos/500/2502.png,Hillsboro Stadium,Portland,OR,45.554597,-122.90694,65.4,7600,FALSE,FALSE
+2692,Weber State,Wildcats,WEB,20,,fcs,#18005a,#ebebeb,https://cdn.collegefootballdata.com/logos/500/2692.png,Stewart Stadium,Ogden,UT,41.1918741,-111.9401391,1451.553711,17500,FALSE,FALSE
+3101,Utah Tech,Trailblazers,UTU,20,,fcs,#000000,#null,https://cdn.collegefootballdata.com/logos/500/3101.png,Greater Zion Stadium,Saint George,UT,37.1098868,-113.5674494,860,10500,FALSE,FALSE
+26,UCLA,Bruins,UCLA,5,,fbs,#2774ae,#f2a900,https://cdn.collegefootballdata.com/logos/500/26.png,Rose Bowl,Pasadena,CA,34.1613284,-118.1676462,245.1772461,88565,TRUE,FALSE
+30,USC,Trojans,USC,5,,fbs,#990000,#ffcc00,https://cdn.collegefootballdata.com/logos/500/30.png,Los Angeles Memorial Coliseum,Los Angeles,CA,34.014167,-118.287778,42.50374222,77500,TRUE,FALSE
+77,Northwestern,Wildcats,NU,5,,fbs,#582c83,#ffffff,https://cdn.collegefootballdata.com/logos/500/77.png,Lanny and Sharon Martin Stadium,Evanston,IL,42.058246,-87.670876,179,12023,FALSE,FALSE
+84,Indiana,Hoosiers,IU,5,,fbs,#990000,#ffffff,https://cdn.collegefootballdata.com/logos/500/84.png,"Memorial Stadium (Bloomington, IN)",Bloomington,IN,39.1808959,-86.5256217,231.6500854,52656,FALSE,FALSE
+120,Maryland,Terrapins,MD,5,,fbs,#ce1126,#ffffff,https://cdn.collegefootballdata.com/logos/500/120.png,SECU Stadium,College Park,MD,38.9903332,-76.9473792,32.68748093,51802,FALSE,FALSE
+127,Michigan State,Spartans,MSU,5,,fbs,#173f35,#ffffff,https://cdn.collegefootballdata.com/logos/500/127.png,Spartan Stadium,East Lansing,MI,42.7281474,-84.4848526,254.8794861,75005,TRUE,FALSE
+130,Michigan,Wolverines,MICH,5,,fbs,#00274c,#ffcb05,https://cdn.collegefootballdata.com/logos/500/130.png,Michigan Stadium,Ann Arbor,MI,42.2658365,-83.7486956,255.5500031,107601,FALSE,FALSE
+135,Minnesota,Golden Gophers,MINN,5,,fbs,#7a0019,#ffcc33,https://cdn.collegefootballdata.com/logos/500/135.png,Huntington Bank Stadium,Minneapolis,MN,44.976525,-93.2245462,254.3902283,50850,FALSE,FALSE
+158,Nebraska,Cornhuskers,NEB,5,,fbs,#d00000,#ffffff,https://cdn.collegefootballdata.com/logos/500/158.png,"Memorial Stadium (Lincoln, NE)",Lincoln,NE,40.820682,-96.705594,354.9318848,85458,FALSE,FALSE
+164,Rutgers,Scarlet Knights,RUTG,5,,fbs,#ce0e2d,#ffffff,https://cdn.collegefootballdata.com/logos/500/164.png,SHI Stadium,Piscataway,NJ,40.513611,-74.465278,19,52454,FALSE,FALSE
+194,Ohio State,Buckeyes,OSU,5,,fbs,#ba0c2f,#a7b1b7,https://cdn.collegefootballdata.com/logos/500/194.png,Ohio Stadium,Columbus,OH,40.0016447,-83.0197266,216.6770325,102780,FALSE,FALSE
+213,Penn State,Nittany Lions,PSU,5,,fbs,#001e44,#ffffff,https://cdn.collegefootballdata.com/logos/500/213.png,Beaver Stadium,University Park,PA,40.8121958,-77.8561023,354.1551514,106572,TRUE,FALSE
+264,Washington,Huskies,WASH,5,,fbs,#33006f,#e8d3a2,https://cdn.collegefootballdata.com/logos/500/264.png,Husky Stadium,Seattle,WA,47.6503235,-122.3015746,11.65622807,70138,FALSE,FALSE
+275,Wisconsin,Badgers,WIS,5,,fbs,#a00000,#ffffff,https://cdn.collegefootballdata.com/logos/500/275.png,Camp Randall Stadium,Madison,WI,43.06994,-89.4126943,263.604126,80321,FALSE,FALSE
+356,Illinois,Fighting Illini,ILL,5,,fbs,#ff5f05,#13294b,https://cdn.collegefootballdata.com/logos/500/356.png,"Memorial Stadium (Champaign, IL)",Champaign,IL,40.0993268,-88.2359569,223.2471619,60670,FALSE,FALSE
+2294,Iowa,Hawkeyes,IOWA,5,,fbs,#000000,#ffcd00,https://cdn.collegefootballdata.com/logos/500/2294.png,Kinnick Stadium,Iowa City,IA,41.6586045,-91.5510829,220.6357727,69250,FALSE,FALSE
+2483,Oregon,Ducks,ORE,5,,fbs,#007030,#fee11a,https://cdn.collegefootballdata.com/logos/500/2483.png,Autzen Stadium,Eugene,OR,44.0582712,-123.0684883,127.4198303,54000,FALSE,FALSE
+2509,Purdue,Boilermakers,PUR,5,,fbs,#ceb888,#000000,https://cdn.collegefootballdata.com/logos/500/2509.png,Ross-Ade Stadium,West Lafayette,IN,40.4352253,-86.9186843,197.5337677,57282,TRUE,FALSE
+119,Towson,Tigers,TOW,301,,fcs,#FFC229,#null,https://cdn.collegefootballdata.com/logos/500/119.png,Johnny Unitas Stadium,Towson,MD,39.3885683,-76.6159716,117.6974106,11200,FALSE,FALSE
+160,New Hampshire,Wildcats,UNH,301,,fcs,#004990,#c3c4c6,https://cdn.collegefootballdata.com/logos/500/160.png,Wildcat Stadium,Durham,NH,43.1386231,-70.9393077,19.05943298,11015,FALSE,FALSE
+227,Rhode Island,Rams,URI,301,,fcs,#091f3f,#5ab3e8,https://cdn.collegefootballdata.com/logos/500/227.png,Meade Stadium,Kingston,RI,41.4879984,-71.5347458,32.68801498,8000,TRUE,FALSE
+311,Maine,Black Bears,ME,301,,fcs,#127dbe,#null,https://cdn.collegefootballdata.com/logos/500/311.png,Alfond Stadium,Orono,ME,44.905128,-68.6724718,35.4817543,10000,FALSE,FALSE
+399,UAlbany,Great Danes,UALB,301,,fcs,#3D2777,#ffffff,https://cdn.collegefootballdata.com/logos/500/399.png,Bob Ford Field,Albany,NY,42.6808062,-73.8272841,64.42764282,8500,FALSE,FALSE
+2097,Campbell,Fighting Camels,CAM,301,,fcs,#000000,#null,https://cdn.collegefootballdata.com/logos/500/2097.png,Barker-Lane Stadium,Buies Creek,NC,35.4047689,-78.7424842,56.51401138,5500,FALSE,FALSE
+2210,Elon,Phoenix,ELON,301,,fcs,#020303,#b59a57,https://cdn.collegefootballdata.com/logos/500/2210.png,Rhodes Stadium,Elon,NC,36.1101269,-79.5079979,204.2487793,14000,TRUE,FALSE
+2261,Hampton,Pirates,HAMP,301,,fcs,#0067AC,#null,https://cdn.collegefootballdata.com/logos/500/2261.png,Armstrong Stadium,Hampton,VA,37.0200894,-76.3331555,2.574624538,12000,FALSE,FALSE
+2405,Monmouth,Hawks,MONM,301,,fcs,#051844,#null,https://cdn.collegefootballdata.com/logos/500/2405.png,Kessler Stadium,West Long Branch,NJ,40.278953,-74.009451,9.9,4200,FALSE,FALSE
+2448,North Carolina A&T,Aggies,NCAT,301,,fcs,#0505aa,#004684,https://cdn.collegefootballdata.com/logos/500/2448.png,Aggie Stadium,Greensboro,NC,36.0814337,-79.7700391,235.1224518,21500,TRUE,FALSE
+2529,Sacred Heart,Pioneers,SHU,301,,fcs,#a40012,#c29472,https://cdn.collegefootballdata.com/logos/500/2529.png,Campus Field,Fairfield,CT,41.2212488,-73.2417431,82.02420044,3334,FALSE,FALSE
+2619,Stony Brook,Seawolves,STBK,301,,fcs,#990000,#null,https://cdn.collegefootballdata.com/logos/500/2619.png,Kenneth P. LaValle Stadium,Stony Brook,NY,40.9188829,-73.1242966,32.63183975,12300,FALSE,FALSE
+2803,Bryant,Bulldogs,BRY,301,,fcs,#000000,#9f8343,https://cdn.collegefootballdata.com/logos/500/2803.png,Bulldog Stadium,Smithfield,RI,41.924206,-71.5385124,124.471344,4400,FALSE,FALSE
+48,Delaware,Blue Hens,DEL,12,,fbs,#00539f,#ffd200,https://cdn.collegefootballdata.com/logos/500/48.png,Delaware Stadium,Newark,DE,39.6617428,-75.7488224,28.74350357,22000,FALSE,FALSE
+55,Jacksonville State,Gamecocks,JXST,12,,fbs,#cc0000,#000000,https://cdn.collegefootballdata.com/logos/500/55.png,AmFirst Stadium,Jacksonville,AL,33.8201052,-85.76647,198.0679016,24000,FALSE,FALSE
+98,Western Kentucky,Hilltoppers,WKU,12,,fbs,#c60c30,#ffffff,https://cdn.collegefootballdata.com/logos/500/98.png,Houchens Industries-L.T. Smith Stadium,Bowling Green,KY,36.9847901,-86.4594041,154.4346619,22113,FALSE,FALSE
+166,New Mexico State,Aggies,NMSU,12,,fbs,#8c0b42,#ffffff,https://cdn.collegefootballdata.com/logos/500/166.png,Aggie Memorial Stadium,Las Cruces,NM,32.2796202,-106.7411148,1208.201294,28853,FALSE,FALSE
+338,Kennesaw State,Owls,KENN,12,,fbs,#fdbb30,#0b1315,https://cdn.collegefootballdata.com/logos/500/338.png,Fifth Third Stadium,Kennesaw,GA,34.0289318,-84.5676234,296.9589844,11040,TRUE,FALSE
+2229,Florida International,Panthers,FIU,12,,fbs,#091f3f,#c3993f,https://cdn.collegefootballdata.com/logos/500/2229.png,Pitbull Stadium,Miami,FL,25.7525,-80.37778,6,20000,FALSE,FALSE
+2335,Liberty,Flames,LIB,12,,fbs,#0a254e,#b72025,https://cdn.collegefootballdata.com/logos/500/2335.png,Williams Stadium (VA),Lynchburg,VA,37.3544305,-79.1750239,272.9237061,25000,FALSE,FALSE
+2393,Middle Tennessee,Blue Raiders,MTSU,12,,fbs,#036eb7,#ffffff,https://cdn.collegefootballdata.com/logos/500/2393.png,"Johnny ""Red"" Floyd Stadium",Murfreesboro,TN,35.8511463,-86.3681649,191.7279816,30788,FALSE,FALSE
+2534,Sam Houston,Bearkats,SHSU,12,,fbs,#f56423,#ffffff,https://cdn.collegefootballdata.com/logos/500/2534.png,Elliott T. Bowers Stadium,Huntsville,TX,30.713926,-95.5419802,127.6225204,14000,FALSE,FALSE
+2623,Missouri State,Bears,MOST,12,,fbs,#5e0009,#ffffff,https://cdn.collegefootballdata.com/logos/500/2623.png,Plaster Sports Complex,Springfield,MO,37.1976229,-93.2798119,402.368103,17337,FALSE,FALSE
+41,UConn,Huskies,CONN,18,,fbs,#000e2f,#ffffff,https://cdn.collegefootballdata.com/logos/500/41.png,Pratt & Whitney Stadium,East Hartford,CT,41.7595675,-72.6187728,6.515614986,40000,TRUE,FALSE
+87,Notre Dame,Fighting Irish,ND,18,,fbs,#0c2340,#c99700,https://cdn.collegefootballdata.com/logos/500/87.png,Notre Dame Stadium,Notre Dame,IN,41.698378,-86.2339425,222.645401,80795,FALSE,FALSE
+2130,Chicago State,Cougars,,18,,fcs,#null,#null,https://cdn.collegefootballdata.com/logos/500/2130.png,,Chicago,IL,,,,,,
+2771,Merrimack,Warriors,MRMK,18,,fcs,#000000,#null,https://cdn.collegefootballdata.com/logos/500/2771.png,Duane Stadium,North Andover,MA,42.6839894,-71.1127065,63,3500,FALSE,FALSE
+43,Yale,Bulldogs,YALE,22,,fcs,#004a81,#286dc0,https://cdn.collegefootballdata.com/logos/500/43.png,Yale Bowl,New Haven,CT,41.3132441,-72.9605333,5.302621841,61446,FALSE,FALSE
+108,Harvard,Crimson,HARV,22,,fcs,#990000,#dbdbdb,https://cdn.collegefootballdata.com/logos/500/108.png,Harvard Stadium,Boston,MA,42.366704,-71.1267511,1.96428895,30323,FALSE,FALSE
+159,Dartmouth,Big Green,DART,22,,fcs,#005730,#000000,https://cdn.collegefootballdata.com/logos/500/159.png,Memorial Field,Hanover,NH,43.701302,-72.2842781,152.3080139,11000,FALSE,FALSE
+163,Princeton,Tigers,PRIN,22,,fcs,#000000,#ff6000,https://cdn.collegefootballdata.com/logos/500/163.png,Princeton University Stadium,Princeton,NJ,40.3457928,-74.6500047,32.00296402,27800,FALSE,FALSE
+171,Columbia,Lions,COLU,22,,fcs,#7ba4db,#183863,https://cdn.collegefootballdata.com/logos/500/171.png,Lawrence A. Wien Stadium,Manhattan,NY,40.8732697,-73.9164594,10.95070267,17000,FALSE,FALSE
+172,Cornell,Big Red,COR,22,,fcs,#b31b1b,#ffffff,https://cdn.collegefootballdata.com/logos/500/172.png,Schoellkopf Field,Ithaca,NY,42.4439016,-76.4785398,257.3187561,21500,FALSE,FALSE
+219,Pennsylvania,Quakers,PENN,22,,fcs,#082A74,#a6163d,https://cdn.collegefootballdata.com/logos/500/219.png,Franklin Field,Philadelphia,PA,39.9501475,-75.1901043,11.71361065,52593,FALSE,FALSE
+225,Brown,Bears,BRWN,22,,fcs,#411e09,#949300,https://cdn.collegefootballdata.com/logos/500/225.png,Brown Stadium,Providence,RI,41.842114,-71.3939416,33.87348557,20000,FALSE,FALSE
+47,Howard,Bison,HOW,24,,fcs,#003a63,#e51937,https://cdn.collegefootballdata.com/logos/500/47.png,William H. Greene Stadium,Washington,DC,38.925487,-77.021047,53.46718979,10000,FALSE,FALSE
+2169,Delaware State,Hornets,DSU,24,,fcs,#009cdb,#d51c28,https://cdn.collegefootballdata.com/logos/500/2169.png,Alumni Stadium,Dover,DE,39.189375,-75.5433185,10.95275307,7193,FALSE,FALSE
+2415,Morgan State,Bears,MORG,24,,fcs,#014786,#f47937,https://cdn.collegefootballdata.com/logos/500/2415.png,Hughes Stadium,Baltimore,MD,39.3439778,-76.5829573,67.05336761,10000,FALSE,FALSE
+2428,North Carolina Central,Eagles,NCCU,24,,fcs,#880023,#c2c3c0,https://cdn.collegefootballdata.com/logos/500/2428.png,O'Kelly-Riddick Stadium,Durham,NC,35.9738646,-78.896969,96.73323059,10000,FALSE,FALSE
+2450,Norfolk State,Spartans,NORF,24,,fcs,#0c8968,#fdb813,https://cdn.collegefootballdata.com/logos/500/2450.png,"William Dick"""" Price Stadium""""",Norfolk,VA,36.8469442,-76.2600839,4.916433334,30000,FALSE,FALSE
+2569,South Carolina State,Bulldogs,SCST,24,,fcs,#7d1315,#104897,https://cdn.collegefootballdata.com/logos/500/2569.png,Oliver C. Dawson Stadium,Orangeburg,SC,33.4986313,-80.8446857,67.29846191,22000,FALSE,FALSE
+16,Sacramento State,Hornets,SAC,15,,fbs,#00573c,#cdb97d,https://cdn.collegefootballdata.com/logos/500/16.png,Hornet Stadium,Sacramento,CA,38.5556718,-121.4229607,12.30015659,21195,FALSE,FALSE
+113,Massachusetts,Minutemen,MASS,15,,fbs,#881c1c,#ffffff,https://cdn.collegefootballdata.com/logos/500/113.png,Warren McGuirk Alumni Stadium,Hadley,MA,42.3773244,-72.5360595,46.58664703,17000,FALSE,FALSE
+189,Bowling Green,Falcons,BGSU,15,,fbs,#fd5000,#4f2c1d,https://cdn.collegefootballdata.com/logos/500/189.png,Doyt L. Perry Stadium,Bowling Green,OH,41.3780114,-83.6225,205.9057465,24000,FALSE,FALSE
+193,Miami (OH),RedHawks,M-OH,15,,fbs,#c41230,#ffffff,https://cdn.collegefootballdata.com/logos/500/193.png,Yager Stadium,Oxford,OH,39.5197009,-84.7330255,242.2643585,24286,FALSE,FALSE
+195,Ohio,Bobcats,OHIO,15,,fbs,#024230,#ffffff,https://cdn.collegefootballdata.com/logos/500/195.png,Peden Stadium,Athens,OH,39.3212794,-82.1034315,194.230896,24000,FALSE,FALSE
+2006,Akron,Zips,AKR,15,,fbs,#041e42,#a89968,https://cdn.collegefootballdata.com/logos/500/2006.png,InfoCision Stadium,Akron,OH,41.0725534,-81.5083408,321.2875061,30000,FALSE,FALSE
+2050,Ball State,Cardinals,BALL,15,,fbs,#ba0c2f,#ffffff,https://cdn.collegefootballdata.com/logos/500/2050.png,Scheumann Stadium,Muncie,IN,40.2159422,-85.4161148,285.481781,22500,FALSE,FALSE
+2084,Buffalo,Bulls,BUF,15,,fbs,#005bbb,#ffffff,https://cdn.collegefootballdata.com/logos/500/2084.png,UB Stadium,Amherst,NY,42.9991334,-78.7775113,181.5759735,30270,FALSE,FALSE
+2117,Central Michigan,Chippewas,CMU,15,,fbs,#6a0032,#ffc82e,https://cdn.collegefootballdata.com/logos/500/2117.png,Kelly/Shorts Stadium,Mount Pleasant,MI,43.5777313,-84.7709904,240.9007721,30255,FALSE,FALSE
+2199,Eastern Michigan,Eagles,EMU,15,,fbs,#046a38,#ffffff,https://cdn.collegefootballdata.com/logos/500/2199.png,Rynearson Stadium,Ypsilanti,MI,42.256126,-83.647285,241.248764,30200,FALSE,FALSE
+2309,Kent State,Golden Flashes,KENT,15,,fbs,#002664,#eaab00,https://cdn.collegefootballdata.com/logos/500/2309.png,Dix Stadium,Kent,OH,41.1390935,-81.31346,321.3641663,25319,FALSE,FALSE
+2649,Toledo,Rockets,TOL,15,,fbs,#0b2240,#ffcd00,https://cdn.collegefootballdata.com/logos/500/2649.png,Glass Bowl,Toledo,OH,41.6574777,-83.6135652,181.4839783,26038,FALSE,FALSE
+2711,Western Michigan,Broncos,WMU,15,,fbs,#532e1f,#f1c500,https://cdn.collegefootballdata.com/logos/500/2711.png,Waldo Stadium,Kalamazoo,MI,42.2860064,-85.6007573,243.8211212,30200,FALSE,FALSE
+23,San José State,Spartans,SJSU,17,,fbs,#0055a2,#e5a823,https://cdn.collegefootballdata.com/logos/500/23.png,CEFCU Stadium,San Jose,CA,37.3196675,-121.8682962,28.30708694,30456,FALSE,FALSE
+62,Hawai'i,Rainbow Warriors,HAW,17,,fbs,#024731,#000000,https://cdn.collegefootballdata.com/logos/500/62.png,Clarence T.C. Ching Athletics Complex,Honolulu,HI,21.294294,-157.819338,20,15194,FALSE,FALSE
+167,New Mexico,Lobos,UNM,17,,fbs,#ba0c2f,#a7a8aa,https://cdn.collegefootballdata.com/logos/500/167.png,University Stadium (NM),Albuquerque,NM,35.0669479,-106.6283225,1554.471924,39224,FALSE,FALSE
+2005,Air Force,Falcons,AF,17,,fbs,#003594,#ffffff,https://cdn.collegefootballdata.com/logos/500/2005.png,Falcon Stadium,Colorado Springs,CO,38.9969701,-104.8436165,2024.875732,46692,FALSE,FALSE
+2439,UNLV,Rebels,UNLV,17,,fbs,#cf0a2c,#cac8c8,https://cdn.collegefootballdata.com/logos/500/2439.png,Allegiant Stadium,Las Vegas,NV,36.09075,-115.183722,666,65000,FALSE,TRUE
+2440,Nevada,Wolf Pack,NEV,17,,fbs,#041e42,#8a8d8f,https://cdn.collegefootballdata.com/logos/500/2440.png,Mackay Stadium,Reno,NV,39.5469459,-119.8175435,1406.57605,27000,FALSE,FALSE
+2449,North Dakota State,Bison,NDSU,17,,fbs,#00583d,#ffc425,https://cdn.collegefootballdata.com/logos/500/2449.png,Fargodome,Fargo,ND,46.9029938,-96.8003251,274.4847717,18700,FALSE,TRUE
+2459,Northern Illinois,Huskies,NIU,17,,fbs,#c8102e,#000000,https://cdn.collegefootballdata.com/logos/500/2459.png,Huskie Stadium,DeKalb,IL,41.9339586,-88.7778357,267.4530029,23595,FALSE,FALSE
+2638,UTEP,Miners,UTEP,17,,fbs,#ff8200,#041e42,https://cdn.collegefootballdata.com/logos/500/2638.png,Sun Bowl,El Paso,TX,31.7733353,-106.507957,1183.697876,51500,FALSE,FALSE
+2751,Wyoming,Cowboys,WYO,17,,fbs,#492f24,#ffc425,https://cdn.collegefootballdata.com/logos/500/2751.png,War Memorial Stadium,Laramie,WY,41.31161,-105.5681384,2200.153564,29181,FALSE,FALSE
+79,Southern Illinois,Salukis,SIU,21,,fcs,#85283D,#c2c3c0,https://cdn.collegefootballdata.com/logos/500/79.png,Saluki Stadium,Carbondale,IL,37.708637,-89.216212,126.7586365,15000,FALSE,FALSE
+93,Murray State,Racers,MUR,21,,fcs,#002148,#000e00,https://cdn.collegefootballdata.com/logos/500/93.png,Roy Stewart Stadium,Murray,KY,36.6215165,-88.3175531,152.6495667,16800,FALSE,FALSE
+155,North Dakota,Fighting Hawks,UND,21,,fcs,#00A26B,#c2c3c0,https://cdn.collegefootballdata.com/logos/500/155.png,Alerus Center,Grand Forks,ND,47.910622,-97.090996,255.2472076,12283,FALSE,TRUE
+233,South Dakota,Coyotes,SDAK,21,,fcs,#CD1241,#f0f0f0,https://cdn.collegefootballdata.com/logos/500/233.png,DakotaDome,Vermillion,SD,42.7911218,-96.9278427,373.3928833,9100,FALSE,TRUE
+282,Indiana State,Sycamores,INST,21,,fcs,#00669a,#f0f0f0,https://cdn.collegefootballdata.com/logos/500/282.png,Memorial Stadium,Terre Haute,IN,39.4746858,-87.3669599,155.5213165,12764,FALSE,FALSE
+2287,Illinois State,Redbirds,ILST,21,,fcs,#CE1126,#ffe716,https://cdn.collegefootballdata.com/logos/500/2287.png,Hancock Stadium,Normal,IL,40.5125091,-88.9967177,242.8722687,15000,FALSE,FALSE
+2460,Northern Iowa,Panthers,UNI,21,,fcs,#473282,#ffffff,https://cdn.collegefootballdata.com/logos/500/2460.png,UNI-Dome,Cedar Falls,IA,42.5156111,-92.4672307,281.8959656,16324,FALSE,TRUE
+2571,South Dakota State,Jackrabbits,SDST,21,,fcs,#0033a0,#ffd100,https://cdn.collegefootballdata.com/logos/500/2571.png,Dana J. Dykhouse Stadium,Brookings,SD,44.3210182,-96.7801386,495.7769775,19340,FALSE,FALSE
+2754,Youngstown State,Penguins,YSU,21,,fcs,#E51936,#690717,https://cdn.collegefootballdata.com/logos/500/2754.png,Stambaugh Stadium,Youngstown,OH,41.1092964,-80.6501885,298.8893127,20630,FALSE,FALSE
+284,Stonehill,Skyhawks,STO,25,,fcs,#000000,#null,https://cdn.collegefootballdata.com/logos/500/284.png,W.B. Mason Stadium,North Easton,MA,42.0667665,-71.1036592,45,2400,FALSE,FALSE
+2115,Central Connecticut,Blue Devils,CCSU,25,,fcs,#1B49A2,#d1d5d8,https://cdn.collegefootballdata.com/logos/500/2115.png,Arute Field,New Britain,CT,41.6950591,-72.7616197,41.29866409,5500,FALSE,FALSE
+2184,Duquesne,Dukes,DUQ,25,,fcs,#002D62,#b90b2e,https://cdn.collegefootballdata.com/logos/500/2184.png,Arthur J. Rooney Athletic Field,Pittsburgh,PA,40.4355808,-79.9900263,269.4302979,2200,FALSE,FALSE
+2341,Long Island University,Sharks,LIU,25,,fcs,#null,#null,https://cdn.collegefootballdata.com/logos/500/2341.png,Bethpage Federal Credit Union Stadium,Brookville,NY,40.816284,-73.589546,236,6000,FALSE,FALSE
+2385,Mercyhurst,Lakers,MERC,25,,fcs,#000000,#null,https://cdn.collegefootballdata.com/logos/500/2385.png,Saxon Stadium,Erie,PA,42.1294712,-80.0852695,198,2300,,FALSE
+2441,New Haven,Chargers,NHVN,25,,fcs,#041e42,#ffc425,https://cdn.collegefootballdata.com/logos/500/2441.png,Ralph F. DellaCamera Stadium,West Haven,CT,41.2706527,-72.9470471,7,5000,FALSE,FALSE
+2523,Robert Morris,Colonials,RMU,25,,fcs,#00214D,#a21d2b,https://cdn.collegefootballdata.com/logos/500/2523.png,Joe Walton Stadium,Moon Township,PA,40.521046,-80.2159227,351.4482422,3000,FALSE,FALSE
+2681,Wagner,Seahawks,WAG,25,,fcs,#00483A,#ffffff,https://cdn.collegefootballdata.com/logos/500/2681.png,Wagner College Stadium,Staten Island,NY,40.614688,-74.090639,63.39014053,3300,FALSE,FALSE
+2127,Charleston Southern,Buccaneers,CHSO,26,,fcs,#2e3192,#ded090,https://cdn.collegefootballdata.com/logos/500/2127.png,Buccaneer Field,North Charleston,SC,32.9810239,-80.0659664,12.6744318,4000,FALSE,FALSE
+2197,Eastern Illinois,Panthers,EIU,26,,fcs,#000000,#bebab9,https://cdn.collegefootballdata.com/logos/500/2197.png,O'Brien Stadium,Charleston,IL,39.4804965,-88.1811618,212.9662933,10000,FALSE,FALSE
+2241,Gardner-Webb,Runnin' Bulldogs,GWEB,26,,fcs,#c12535,#909090,https://cdn.collegefootballdata.com/logos/500/2241.png,Ernest W. Spangler Stadium,Boiling Springs,NC,35.2457593,-81.6739887,253.207016,9000,FALSE,FALSE
+2546,Southeast Missouri State,Redhawks,SEMO,26,,fcs,#c8102e,#000000,https://cdn.collegefootballdata.com/logos/500/2546.png,Houck Field,Cape Girardeau,MO,37.3034933,-89.5230357,122,10000,FALSE,FALSE
+2630,UT Martin,Skyhawks,UTM,26,,fcs,#FF6700,#102a5c,https://cdn.collegefootballdata.com/logos/500/2630.png,Graham Stadium,Martin,TN,36.3448341,-88.8616245,124.6879349,7500,FALSE,FALSE
+2634,Tennessee State,Tigers,TNST,26,,fcs,#171796,#f0f0f0,https://cdn.collegefootballdata.com/logos/500/2634.png,Nissan Stadium,Nashville,TN,36.166479,-86.7712898,121.0412598,69143,FALSE,FALSE
+2710,Western Illinois,Leathernecks,WIU,26,,fcs,#4e1e8a,#ffc90a,https://cdn.collegefootballdata.com/logos/500/2710.png,Hanson Field,Macomb,IL,40.4683928,-90.6841248,192.8755646,16368,FALSE,FALSE
+2815,Lindenwood,Lions,LIN,26,,fcs,#000000,#null,https://cdn.collegefootballdata.com/logos/500/2815.png,Hunter Stadium,Saint Charles,MO,38.7946252,-90.519829,159,7450,FALSE,FALSE
+21,San Diego State,Aztecs,SDSU,9,,fbs,#a6192e,#000000,https://cdn.collegefootballdata.com/logos/500/21.png,Snapdragon Stadium,San Diego,CA,32.784444,-117.122833,62,35000,TRUE,FALSE
+36,Colorado State,Rams,CSU,9,,fbs,#1e4d2b,#c8c372,https://cdn.collegefootballdata.com/logos/500/36.png,Canvas Stadium,Fort Collins,CO,40.570015,-105.088435,1528.4,36500,FALSE,FALSE
+68,Boise State,Broncos,BOIS,9,,fbs,#0033a0,#d64309,https://cdn.collegefootballdata.com/logos/500/68.png,Albertsons Stadium,Boise,ID,43.6028839,-116.1958882,823.2221069,36387,FALSE,FALSE
+204,Oregon State,Beavers,ORST,9,,fbs,#dc4405,#000000,https://cdn.collegefootballdata.com/logos/500/204.png,Reser Stadium,Corvallis,OR,44.5594559,-123.2814341,66.90744781,43363,FALSE,FALSE
+265,Washington State,Cougars,WSU,9,,fbs,#a60f2d,#4d4d4d,https://cdn.collegefootballdata.com/logos/500/265.png,Gesa Field,Pullman,WA,46.731831,-117.1604991,773.9526367,32952,FALSE,FALSE
+278,Fresno State,Bulldogs,FRES,9,,fbs,#c41230,#13284c,https://cdn.collegefootballdata.com/logos/500/278.png,Valley Children's Stadium,Fresno,CA,36.8143527,-119.7580092,102.564064,41031,FALSE,FALSE
+326,Texas State,Bobcats,TXST,9,,fbs,#501214,#6a5638,https://cdn.collegefootballdata.com/logos/500/326.png,Bobcat Stadium (TX),San Marcos,TX,29.8910008,-97.9255735,177.8676453,30000,FALSE,FALSE
+328,Utah State,Aggies,USU,9,,fbs,#0f2439,#ffffff,https://cdn.collegefootballdata.com/logos/500/328.png,Maverik Stadium,Logan,UT,41.7517394,-111.8116007,1427.914429,25513,FALSE,FALSE
+46,Georgetown,Hoyas,GTWN,27,,fcs,#110E42,#001c58,https://cdn.collegefootballdata.com/logos/500/46.png,Cooper Field,Washington,DC,38.9080248,-77.0753144,32.38431549,3750,FALSE,FALSE
+107,Holy Cross,Crusaders,HC,27,,fcs,#582c83,#ffffff,https://cdn.collegefootballdata.com/logos/500/107.png,Fitton Field,Worcester,MA,42.2403564,-71.8111424,137.3915253,23500,TRUE,FALSE
+222,Villanova,Wildcats,VILL,27,,fcs,#00205b,#13b5ea,https://cdn.collegefootballdata.com/logos/500/222.png,Villanova Stadium,Villanova,PA,40.0343329,-75.3367666,127.3836746,12500,FALSE,FALSE
+257,Richmond,Spiders,RICH,27,,fcs,#9e0712,#b90b2e,https://cdn.collegefootballdata.com/logos/500/257.png,E. Claiborne Robins Stadium,Richmond,VA,37.5807765,-77.5372211,60.03879166,8217,FALSE,FALSE
+322,Lafayette,Leopards,LAF,27,,fcs,#790000,#a59474,https://cdn.collegefootballdata.com/logos/500/322.png,Fisher Field,Easton,PA,40.7009796,-75.2106499,81.43208313,13132,FALSE,FALSE
+2083,Bucknell,Bison,BUCK,27,,fcs,#000060,#00316e,https://cdn.collegefootballdata.com/logos/500/2083.png,Christy Mathewson-Memorial Stadium,Lewisburg,PA,40.9519411,-76.884752,151.194931,13100,FALSE,FALSE
+2142,Colgate,Raiders,COLG,27,,fcs,#821019,#ffffff,https://cdn.collegefootballdata.com/logos/500/2142.png,Andy Kerr Stadium,Hamilton,NY,42.8168991,-75.5452721,337.1443787,10221,FALSE,FALSE
+2230,Fordham,Rams,FOR,27,,fcs,#830032,#909090,https://cdn.collegefootballdata.com/logos/500/2230.png,Jack Coffey Field,Bronx,NY,40.8466508,-73.8785937,22,7000,FALSE,FALSE
+2329,Lehigh,Mountain Hawks,LEH,27,,fcs,#6c2b2a,#b69e70,https://cdn.collegefootballdata.com/logos/500/2329.png,Goodman Stadium,Bethlehem,PA,40.5890837,-75.3553874,90.32305145,16000,FALSE,FALSE
+2729,William & Mary,Tribe,W&M,27,,fcs,#115740,#f0b323,https://cdn.collegefootballdata.com/logos/500/2729.png,Zable Stadium,Williamsburg,VA,37.2730996,-76.7137202,26.07615852,12400,FALSE,FALSE
+56,Stetson,Hatters,STET,28,,fcs,#0a5640,#56854e,https://cdn.collegefootballdata.com/logos/500/56.png,Spec Martin Municipal Stadium,DeLand,FL,29.0208575,-81.2993746,14.65544891,6000,TRUE,FALSE
+301,San Diego,Toreros,USD,28,,fcs,#2f99d4,#2f99d4,https://cdn.collegefootballdata.com/logos/500/301.png,Torero Stadium,San Diego,CA,32.7730674,-117.183721,57.95064545,6000,TRUE,FALSE
+2086,Butler,Bulldogs,BTLR,28,,fcs,#0d1361,#00a3e0,https://cdn.collegefootballdata.com/logos/500/2086.png,Butler Bowl,Indianapolis,IN,39.8444694,-86.1659242,221.1980591,5647,FALSE,FALSE
+2166,Davidson,Wildcats,DAV,28,,fcs,#000000,#e51837,https://cdn.collegefootballdata.com/logos/500/2166.png,Richardson Stadium,Davidson,NC,35.4995744,-80.8428419,249.4658203,6000,FALSE,FALSE
+2168,Dayton,Flyers,DAY,28,,fcs,#004B8D,#ffffff,https://cdn.collegefootballdata.com/logos/500/2168.png,Welcome Stadium,Dayton,OH,39.7369239,-84.1981068,222.4020081,11000,FALSE,FALSE
+2181,Drake,Bulldogs,DRKE,28,,fcs,#005596,#bec0c2,https://cdn.collegefootballdata.com/logos/500/2181.png,Drake Stadium,Des Moines,IA,41.605,-93.655,277.8869934,14557,FALSE,FALSE
+2368,Marist,Red Foxes,MRST,28,,fcs,#e53730,#f0f0f0,https://cdn.collegefootballdata.com/logos/500/2368.png,Leonidoff Field,Poughkeepsie,NY,41.7191409,-73.9329549,24.94474983,5000,FALSE,FALSE
+2413,Morehead State,Eagles,MORE,28,,fcs,#094FA3,#fed91a,https://cdn.collegefootballdata.com/logos/500/2413.png,Jayne Stadium,Morehead,KY,38.1916481,-83.4253315,228.1033936,10000,FALSE,FALSE
+2506,Presbyterian,Blue Hose,PRES,28,,fcs,#194896,#990134,https://cdn.collegefootballdata.com/logos/500/2506.png,Bailey Memorial Stadium,Clinton,SC,34.46158,-81.861368,194.1601868,6500,TRUE,FALSE
+2674,Valparaiso,Beacons,VAL,28,,fcs,#794500,#null,https://cdn.collegefootballdata.com/logos/500/2674.png,Brown Field,Valparaiso,IN,41.465642,-87.0479446,244.6367645,5000,FALSE,FALSE
+2900,St. Thomas (MN),Tommies,STMN,28,,fcs,#000000,#null,https://cdn.collegefootballdata.com/logos/500/2900.png,O'Shaughnessy Stadium,Saint Paul,MN,44.9497487,-93.0931028,237,5025,FALSE,FALSE
+2,Auburn,Tigers,AUB,8,,fbs,#0c2340,#f26522,https://cdn.collegefootballdata.com/logos/500/2.png,Jordan-Hare Stadium,Auburn,AL,32.6025532,-85.4897479,201.1737976,87451,TRUE,FALSE
+8,Arkansas,Razorbacks,ARK,8,,fbs,#a32136,#ffffff,https://cdn.collegefootballdata.com/logos/500/8.png,Razorback Stadium,Fayetteville,AR,36.0680662,-94.1789534,403.7972412,80000,FALSE,FALSE
+57,Florida,Gators,FLA,8,,fbs,#0021a5,#fa4616,https://cdn.collegefootballdata.com/logos/500/57.png,Ben Hill Griffin Stadium,Gainesville,FL,29.6499357,-82.3485788,44.97250748,88548,TRUE,FALSE
+61,Georgia,Bulldogs,UGA,8,,fbs,#ba0c2f,#2c2a29,https://cdn.collegefootballdata.com/logos/500/61.png,Sanford Stadium,Athens,GA,33.9498197,-83.3733813,186.1120758,92746,TRUE,FALSE
+96,Kentucky,Wildcats,UK,8,,fbs,#0033a0,#ffffff,https://cdn.collegefootballdata.com/logos/500/96.png,Kroger Field,Lexington,KY,38.0220905,-84.5053408,307.4248962,61000,FALSE,FALSE
+99,LSU,Tigers,LSU,8,,fbs,#461d7c,#fdd023,https://cdn.collegefootballdata.com/logos/500/99.png,Tiger Stadium (LA),Baton Rouge,LA,30.412035,-91.1838163,7.640734673,102321,TRUE,FALSE
+142,Missouri,Tigers,MIZ,8,,fbs,#f1b82d,#000000,https://cdn.collegefootballdata.com/logos/500/142.png,Memorial Stadium,Columbia,MO,38.9358491,-92.3332009,212.6865692,71168,FALSE,FALSE
+145,Ole Miss,Rebels,MISS,8,,fbs,#13294b,#cf142b,https://cdn.collegefootballdata.com/logos/500/145.png,Vaught-Hemingway Stadium,Oxford,MS,34.3619837,-89.5342076,146.8517151,64038,TRUE,FALSE
+201,Oklahoma,Sooners,OU,8,,fbs,#841617,#ffffff,https://cdn.collegefootballdata.com/logos/500/201.png,"Memorial Stadium (Norman, OK)",Norman,OK,35.2058537,-97.4423145,355.0962524,86112,TRUE,FALSE
+238,Vanderbilt,Commodores,VAN,8,,fbs,#000000,#cfae70,https://cdn.collegefootballdata.com/logos/500/238.png,FirstBank Stadium,Nashville,TN,36.1440455,-86.8088942,159.9194641,40351,FALSE,FALSE
+245,Texas A&M,Aggies,TA&M,8,,fbs,#500000,#ffffff,https://cdn.collegefootballdata.com/logos/500/245.png,Kyle Field,College Station,TX,30.6098891,-96.3403828,108.824585,102733,TRUE,FALSE
+251,Texas,Longhorns,TEX,8,,fbs,#bf5700,#ffffff,https://cdn.collegefootballdata.com/logos/500/251.png,DKR-Texas Memorial Stadium,Austin,TX,30.2836813,-97.7325345,160.3089447,100119,FALSE,FALSE
+333,Alabama,Crimson Tide,ALA,8,,fbs,#9e1b32,#ffffff,https://cdn.collegefootballdata.com/logos/500/333.png,Bryant-Denny Stadium,Tuscaloosa,AL,33.2082752,-87.5503836,70.05136108,101821,TRUE,FALSE
+344,Mississippi State,Bulldogs,MSST,8,,fbs,#5d1725,#c1c6c8,https://cdn.collegefootballdata.com/logos/500/344.png,Davis Wade Stadium,Starkville,MS,33.4563403,-88.7933652,110.2742081,61337,TRUE,FALSE
+2579,South Carolina,Gamecocks,SC,8,,fbs,#73000a,#000000,https://cdn.collegefootballdata.com/logos/500/2579.png,Williams-Brice Stadium,Columbia,SC,33.9730239,-81.0191726,60.54548645,80250,TRUE,FALSE
+2633,Tennessee,Volunteers,TENN,8,,fbs,#ff8200,#ffffff,https://cdn.collegefootballdata.com/logos/500/2633.png,Neyland Stadium,Knoxville,TN,35.9550131,-83.9250128,271.9517212,102455,TRUE,FALSE
+231,Furman,Paladins,FUR,29,,fcs,#582c83,#ffffff,https://cdn.collegefootballdata.com/logos/500/231.png,Paladin Stadium,Greenville,SC,34.920192,-82.4370917,303.2829285,16000,FALSE,FALSE
+236,Chattanooga,Mocs,UTC,29,,fcs,#00386b,#dca71d,https://cdn.collegefootballdata.com/logos/500/236.png,Finley Stadium,Chattanooga,TN,35.0363792,-85.3158835,200.1825104,20668,FALSE,FALSE
+2193,East Tennessee State,Buccaneers,ETSU,29,,fcs,#002d61,#ffc423,https://cdn.collegefootballdata.com/logos/500/2193.png,William B. Greene Jr. Stadium,Johnson City,TN,36.299084,-82.374117,512.5,7694,FALSE,FALSE
+2382,Mercer,Bears,MER,29,,fcs,#ff7f29,#080808,https://cdn.collegefootballdata.com/logos/500/2382.png,Five Star Stadium at the Moye Complex,Macon,GA,32.8262075,-83.6522485,138.6699677,10200,FALSE,FALSE
+2535,Samford,Bulldogs,SAM,29,,fcs,#005485,#bc0023,https://cdn.collegefootballdata.com/logos/500/2535.png,Seibert Stadium,Homewood,AL,33.463273,-86.795326,208.0207825,6700,FALSE,FALSE
+2635,Tennessee Tech,Golden Eagles,TNTC,29,,fcs,#5A4099,#ffde00,https://cdn.collegefootballdata.com/logos/500/2635.png,Tucker Stadium,Cookeville,TN,36.1780555,-85.506183,340.8609314,16500,FALSE,FALSE
+2643,The Citadel,Bulldogs,CIT,29,,fcs,#7badd3,#002856,https://cdn.collegefootballdata.com/logos/500/2643.png,Johnson Hagood Stadium,Charleston,SC,32.7936975,-79.9558183,4.137742996,11427,TRUE,FALSE
+2678,VMI,Keydets,VMI,29,,fcs,#ae122a,#ffd619,https://cdn.collegefootballdata.com/logos/500/2678.png,Alumni Memorial Field,Lexington,VA,37.788983,-79.43505,294.958252,10000,TRUE,FALSE
+2717,Western Carolina,Catamounts,WCU,29,,fcs,#492F91,#bf9e70,https://cdn.collegefootballdata.com/logos/500/2717.png,E. J. Whitmire Stadium,Cullowhee,NC,35.3048352,-83.1818148,653.8632813,13742,FALSE,FALSE
+2747,Wofford,Terriers,WOF,29,,fcs,#533B23,#f0f0f0,https://cdn.collegefootballdata.com/logos/500/2747.png,Gibbs Stadium,Spartanburg,SC,34.9618606,-81.9328915,231.6300049,13000,TRUE,FALSE
+292,UT Rio Grande Valley,Vaqueros,RGV,30,,fcs,#null,#null,https://cdn.collegefootballdata.com/logos/500/292.png,Robert and Janet Vackar Stadium,Edinburg,TX,26.2826,-98.1352,30,13498,FALSE,FALSE
+2277,Houston Christian,Huskies,HCU,30,,fcs,#00539c,#null,https://cdn.collegefootballdata.com/logos/500/2277.png,Husky Stadium,Houston,TX,29.6949025,-95.5167353,19.87884521,5000,FALSE,FALSE
+2320,Lamar,Cardinals,LAM,30,,fcs,#000000,#ebebeb,https://cdn.collegefootballdata.com/logos/500/2320.png,Provost Umphrey Stadium,Beaumont,TX,30.04313,-94.069963,3.981505394,16000,FALSE,FALSE
+2377,McNeese,Cowboys,MCN,30,,fcs,#00529C,#null,https://cdn.collegefootballdata.com/logos/500/2377.png,Cowboy Stadium,Lake Charles,LA,30.1804575,-93.2178729,4.168509007,17610,FALSE,FALSE
+2447,Nicholls,Colonels,NICH,30,,fcs,#C41230,#f0f0f0,https://cdn.collegefootballdata.com/logos/500/2447.png,Manning Field at John L. Guidry Stadium,Thibodaux,LA,29.7867254,-90.80455,3.23726368,10500,FALSE,FALSE
+2466,Northwestern State,Demons,NWST,30,,fcs,#492F91,#ed6118,https://cdn.collegefootballdata.com/logos/500/2466.png,Harry Turpin Stadium,Natchitoches,LA,31.747259,-93.0961357,36.58879089,15971,FALSE,FALSE
+2545,SE Louisiana,Lions,SELA,30,,fcs,#215732,#ffc72c,https://cdn.collegefootballdata.com/logos/500/2545.png,Strawberry Stadium,Hammond,LA,30.5110264,-90.4685792,13.7104578,7408,FALSE,FALSE
+2617,Stephen F. Austin,Lumberjacks,SFA,30,,fcs,#393996,#bec0c2,https://cdn.collegefootballdata.com/logos/500/2617.png,Homer Bryce Stadium,Nacogdoches,TX,31.625719,-94.6444034,89.99433899,14575,FALSE,FALSE
+2837,East Texas A&M,Lions,ETAM,30,,fcs,#000000,#null,https://cdn.collegefootballdata.com/logos/500/2837.png,Memorial Stadium (Commerce TX),Commerce,TX,33.2442615,-95.9006353,171,11582,FALSE,FALSE
+2916,Incarnate Word,Cardinals,UIW,30,,fcs,#000000,#080808,https://cdn.collegefootballdata.com/logos/500/2916.png,Gayle and Tom Benson Stadium,San Antonio,TX,29.4674787,-98.470014,208.4659576,6000,FALSE,FALSE
+6,South Alabama,Jaguars,USA,37,West,fbs,#00205b,#bf0d3e,https://cdn.collegefootballdata.com/logos/500/6.png,Hancock Whitney Stadium,Mobile,AL,30.696904,-88.192013,45,25450,FALSE,FALSE
+256,James Madison,Dukes,JMU,37,East,fbs,#450084,#cbb677,https://cdn.collegefootballdata.com/logos/500/256.png,Bridgeforth Stadium,Harrisonburg,VA,38.4352919,-78.8729349,399.303009,24877,FALSE,FALSE
+276,Marshall,Thundering Herd,MRSH,37,East,fbs,#00b140,#000000,https://cdn.collegefootballdata.com/logos/500/276.png,Joan C. Edwards Stadium,Huntington,WV,38.4247042,-82.4214412,163.7328186,38016,FALSE,FALSE
+290,Georgia Southern,Eagles,GASO,37,East,fbs,#041e42,#ffffff,https://cdn.collegefootballdata.com/logos/500/290.png,Allen E. Paulson Stadium,Statesboro,GA,32.4122471,-81.7849296,61.25376892,25000,FALSE,FALSE
+295,Old Dominion,Monarchs,ODU,37,East,fbs,#043657,#98c5ea,https://cdn.collegefootballdata.com/logos/500/295.png,S.B. Ballard Stadium,Norfolk,VA,36.8889533,-76.3049175,3.147987843,20118,FALSE,FALSE
+309,Louisiana,Ragin' Cajuns,UL,37,West,fbs,#ce181e,#000000,https://cdn.collegefootballdata.com/logos/500/309.png,Cajun Field,Lafayette,LA,30.2158434,-92.0417371,3.556508303,41426,FALSE,FALSE
+324,Coastal Carolina,Chanticleers,CCU,37,East,fbs,#006f71,#a27752,https://cdn.collegefootballdata.com/logos/500/324.png,Brooks Stadium (SC),Conway,SC,33.7928506,-79.0166946,13.74894905,21000,FALSE,FALSE
+2026,App State,Mountaineers,APP,37,East,fbs,#000000,#ffcd00,https://cdn.collegefootballdata.com/logos/500/2026.png,Kidd Brewer Stadium,Boone,NC,36.2114267,-81.6854278,991.3414307,30000,FALSE,FALSE
+2032,Arkansas State,Red Wolves,ARST,37,West,fbs,#cc092f,#000000,https://cdn.collegefootballdata.com/logos/500/2032.png,Centennial Bank Stadium,Jonesboro,AR,35.8488977,-90.6677436,89.52690887,30382,FALSE,FALSE
+2247,Georgia State,Panthers,GAST,37,East,fbs,#0039a6,#ffffff,https://cdn.collegefootballdata.com/logos/500/2247.png,Center Parc Stadium,Atlanta,GA,33.735267,-84.389949,287,25000,FALSE,FALSE
+2348,Louisiana Tech,Bulldogs,LT,37,West,fbs,#003087,#cb333b,https://cdn.collegefootballdata.com/logos/500/2348.png,Joe Aillet Stadium,Ruston,LA,32.5321487,-92.6560019,72.87982941,28019,FALSE,FALSE
+2433,UL Monroe,Warhawks,ULM,37,West,fbs,#840029,#fdb913,https://cdn.collegefootballdata.com/logos/500/2433.png,Malone Stadium,Monroe,LA,32.5308089,-92.0660602,22.998209,27617,FALSE,FALSE
+2572,Southern Miss,Golden Eagles,USM,37,West,fbs,#ffc72c,#231f20,https://cdn.collegefootballdata.com/logos/500/2572.png,M. M. Roberts Stadium,Hattiesburg,MS,31.3289321,-89.3318118,64.52726746,36000,FALSE,FALSE
+2653,Troy,Trojans,TROY,37,West,fbs,#862633,#b1b1b1,https://cdn.collegefootballdata.com/logos/500/2653.png,Veterans Memorial Stadium (AL),Troy,AL,31.7995565,-85.9518328,154.7746277,30000,FALSE,FALSE
+50,Florida A&M,Rattlers,FAMU,31,East,fcs,#F89728,#00843d,https://cdn.collegefootballdata.com/logos/500/50.png,Bragg Memorial Stadium,Tallahassee,FL,30.4261632,-84.2923095,31.18483925,25500,FALSE,FALSE
+2010,Alabama A&M,Bulldogs,AAMU,31,East,fcs,#790000,#ffffff,https://cdn.collegefootballdata.com/logos/500/2010.png,Louis Crews Stadium,Huntsville,AL,34.7835363,-86.5784132,214.9181061,21000,FALSE,FALSE
+2011,Alabama State,Hornets,ALST,31,East,fcs,#e9a900,#0a0a0a,https://cdn.collegefootballdata.com/logos/500/2011.png,Hornet Stadium,Montgomery,AL,32.3642223,-86.2896902,79.35839844,26500,FALSE,FALSE
+2016,Alcorn State,Braves,ALCN,31,West,fcs,#4b0058,#46166a,https://cdn.collegefootballdata.com/logos/500/2016.png,Jack Spinks Stadium,Lorman,MS,31.873621,-91.13488,72.25324249,22500,FALSE,FALSE
+2029,Arkansas-Pine Bluff,Golden Lions,UAPB,31,West,fcs,#e0aa0f,#eaaa00,https://cdn.collegefootballdata.com/logos/500/2029.png,Golden Lion Stadium,Pine Bluff,AR,34.253327,-92.0214031,67.71961975,16000,FALSE,FALSE
+2065,Bethune-Cookman,Wildcats,BCU,31,East,fcs,#7b1831,#e9aa12,https://cdn.collegefootballdata.com/logos/500/2065.png,Municipal Stadium,Daytona Beach,FL,29.173466,-81.117511,9.516305923,10000,FALSE,FALSE
+2296,Jackson State,Tigers,JKST,31,East,fcs,#123297,#b5b7ba,https://cdn.collegefootballdata.com/logos/500/2296.png,Mississippi Veterans Memorial Stadium,Jackson,MS,32.3300053,-90.1795578,108.4067383,44215,TRUE,FALSE
+2400,Mississippi Valley State,Delta Devils,MVSU,31,East,fcs,#005328,#cf2d34,https://cdn.collegefootballdata.com/logos/500/2400.png,Rice-Totten Field,Itta Bena,MS,33.5118304,-90.3397718,39.88368607,10000,TRUE,FALSE
+2504,Prairie View A&M,Panthers,PV,31,West,fcs,#582c83,#eaaa00,https://cdn.collegefootballdata.com/logos/500/2504.png,Panther Stadium,Prairie View,TX,30.0937874,-95.9960913,77.36286926,15000,TRUE,FALSE
+2582,Southern,Jaguars,SOU,31,West,fcs,#004B97,#ffc82d,https://cdn.collegefootballdata.com/logos/500/2582.png,Ace W. Mumford Stadium,Baton Rouge,LA,30.5221461,-91.1896087,20.24213219,28500,FALSE,FALSE
+2640,Texas Southern,Tigers,TXSO,31,West,fcs,#860038,#ffffff,https://cdn.collegefootballdata.com/logos/500/2640.png,BBVA Compass Stadium,Houston,TX,29.7521988,-95.3524146,13.68128395,22000,TRUE,FALSE
+2755,Grambling,Tigers,GRAM,31,West,fcs,#ee8601,#ffd10a,https://cdn.collegefootballdata.com/logos/500/2755.png,Eddie Robinson Stadium,Grambling,LA,32.5258665,-92.7146412,94.58428955,19600,FALSE,FALSE
+2000,Abilene Christian,Wildcats,ACU,177,,fcs,#592d82,#b1b3b3,https://cdn.collegefootballdata.com/logos/500/2000.png,Wildcat Stadium (TX),Abilene,TX,32.472275,-99.710464,520.9,12000,FALSE,FALSE
+2046,Austin Peay,Governors,APSU,177,,fcs,#8e0b0b,#null,https://cdn.collegefootballdata.com/logos/500/2046.png,Governors Stadium,Clarksville,TN,36.5362559,-87.3525507,142.8643188,10100,FALSE,FALSE
+2110,Central Arkansas,Bears,CARK,177,,fcs,#a7a9ac,#8e959a,https://cdn.collegefootballdata.com/logos/500/2110.png,Estes Stadium,Conway,AR,35.0802599,-92.460045,94.25577545,10000,FALSE,FALSE
+2198,Eastern Kentucky,Colonels,EKU,177,,fcs,#660819,#f0f0f0,https://cdn.collegefootballdata.com/logos/500/2198.png,Roy Kidd Stadium,Richmond,KY,37.7344109,-84.2972854,298.1834717,20000,FALSE,FALSE
+2453,North Alabama,Lions,UNA,177,,fcs,#000000,#null,https://cdn.collegefootballdata.com/logos/500/2453.png,Braly Municipal Stadium,Florence,AL,34.810914,-87.670587,172.3,14215,FALSE,FALSE
+2627,Tarleton State,Texans,TAR,177,,fcs,#000000,#null,https://cdn.collegefootballdata.com/logos/500/2627.png,"Memorial Stadium (Stephenville, TX)",Stephenville,TX,32.2191836,-98.2130634,402,24000,FALSE,FALSE
+2698,West Georgia,Wolves,WGA,177,,fcs,#0033a1,#db1a21,https://cdn.collegefootballdata.com/logos/500/2698.png,University Stadium (GA),Carrollton,GA,33.58006,-85.12064,317,10000,TRUE,FALSE
+110242,West Florida,Argonauts,WFL,177,,fcs,#null,#null,https://cdn.collegefootballdata.com/logos/500/110242.png,Pen-Air Field,Pensacola,FL,30.547231,-87.222001,18,4000,FALSE,FALSE
