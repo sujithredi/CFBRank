@@ -53,7 +53,7 @@ class Team(Base):
     alternate_color: Mapped[str | None] = mapped_column(String(10), nullable=True)
 
     school_city: Mapped[str | None] = mapped_column(String(100), nullable=True)
-    school_state: Mapped[str | None] = mapped_column(String(10), nullable=True)
+    school_state: Mapped[str | None] = mapped_column(String(5), nullable=True)
 
     stadium_name: Mapped[str | None] = mapped_column(String(150), nullable=True)
     stadium_latitude: Mapped[float | None] = mapped_column(Float, nullable=True)
@@ -63,7 +63,7 @@ class Team(Base):
     stadium_grass: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
     stadium_dome: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
 
-    conference_id: Mapped[int | None] = mapped_column(ForeignKey("conferences.id"), nullable=True)
+    conference_id: Mapped[int | None] = mapped_column(ForeignKey("conferences.cfbd_id"), nullable=True)
     conference: Mapped["Conference | None"] = relationship(back_populates="teams")
 
     power_ratings: Mapped[list["PowerRating"]] = relationship(back_populates="team")

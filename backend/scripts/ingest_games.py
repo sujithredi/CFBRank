@@ -9,6 +9,12 @@ Usage (run from backend/):
 
 Requires CFBD_API_KEY to be set (backend/.env, same as the FastAPI app).
 
+Teams are matched against what's already in the database (seeded via
+scripts/seed_teams.py) by CFBD id. A game is only added/updated if BOTH
+its home and away team already exist there -- this script never creates
+a Team row on its own. Games involving a team that isn't seeded yet are
+skipped and printed to stdout, with a summary count at the end.
+
 Note on field names: this targets CFBD's commonly-documented /games schema
 (homeId/homeTeam/homePoints, awayId/awayTeam/awayPoints, startDate, etc.).
 CFBD's API has multiple versions in the wild -- before relying on this for
@@ -55,23 +61,17 @@ def fetch_games(year: int, season_type: str, week: int | None) -> list[dict]:
     return resp.json()
 
 
-def get_or_create_team(db: Session, cfbd_id: int | None, school: str | None) -> Team | None:
+def get_existing_team(db: Session, cfbd_id: int | None) -> Team | None:
     """
-    Minimal team upsert so games have a valid FK target. This only fills in
-    cfbd_id + school; conference, mascot, and logo are meant to come from a
-    dedicated /teams/fbs sync script (a natural next script, not this one).
+    Look up a team already in the database by CFBD id. Returns None if it
+    isn't there (or no id was given) -- ingestion never creates a Team row
+    on the fly. Run scripts/seed_teams.py (and seed_conferences.py) first;
+    any game involving a team missing from that seed is skipped rather
+    than silently adding a bare-bones Team row for it.
     """
-    if cfbd_id is None or not school:
+    if cfbd_id is None:
         return None
-
-    team = db.query(Team).filter_by(cfbd_id=cfbd_id).first()
-    if team:
-        return team
-
-    team = Team(cfbd_id=cfbd_id, school=school)
-    db.add(team)
-    db.flush()  # get team.id without a full commit
-    return team
+    return db.query(Team).filter_by(cfbd_id=cfbd_id).first()
 
 
 def parse_start_date(raw: str | None) -> datetime | None:
@@ -83,15 +83,25 @@ def parse_start_date(raw: str | None) -> datetime | None:
         return None
 
 
-def upsert_game(db: Session, payload: dict, season: int, season_type: str) -> None:
-    home_team = get_or_create_team(db, payload.get("homeId"), payload.get("homeTeam"))
-    away_team = get_or_create_team(db, payload.get("awayId"), payload.get("awayTeam"))
+def upsert_game(db: Session, payload: dict, season: int, season_type: str) -> str:
+    """Returns 'added', 'updated', or 'skipped' (unknown team on either side)."""
+    home_id, home_school = payload.get("homeId"), payload.get("homeTeam")
+    away_id, away_school = payload.get("awayId"), payload.get("awayTeam")
+
+    home_team = get_existing_team(db, home_id)
+    away_team = get_existing_team(db, away_id)
 
     if home_team is None or away_team is None:
-        print(f"  skipping game {payload.get('id')}: missing home/away team id")
-        return
+        missing = []
+        if home_team is None:
+            missing.append(f"home={home_school!r} (cfbd_id={home_id})")
+        if away_team is None:
+            missing.append(f"away={away_school!r} (cfbd_id={away_id})")
+        print(f"  skipping game {payload.get('id')}: not in database -- {', '.join(missing)}")
+        return "skipped"
 
     game = db.query(Game).filter_by(cfbd_id=payload["id"]).first()
+    action = "updated" if game else "added"
     if game is None:
         game = Game(cfbd_id=payload["id"])
         db.add(game)
@@ -108,6 +118,7 @@ def upsert_game(db: Session, payload: dict, season: int, season_type: str) -> No
     game.away_team_id = away_team.id
     game.home_points = payload.get("homePoints")
     game.away_points = payload.get("awayPoints")
+    return action
 
 
 def main() -> None:
@@ -126,11 +137,26 @@ def main() -> None:
     print(f"Got {len(games)} games from CFBD.")
 
     db = SessionLocal()
+    added = updated = skipped = 0
     try:
         for payload in games:
-            upsert_game(db, payload, season=args.year, season_type=args.season_type)
+            result = upsert_game(db, payload, season=args.year, season_type=args.season_type)
+            if result == "added":
+                added += 1
+            elif result == "updated":
+                updated += 1
+            else:
+                skipped += 1
         db.commit()
-        print(f"Upserted {len(games)} games (and any new teams they referenced).")
+        print(
+            f"\nDone: {added} added, {updated} updated, {skipped} skipped "
+            f"(team not in database), {len(games)} total from CFBD."
+        )
+        if skipped:
+            print(
+                "Skipped games involve a team not yet in your teams table -- "
+                "check backend/data/teams.csv / scripts/seed_teams.py if you expect it to be there."
+            )
     except Exception:
         db.rollback()
         raise
