@@ -1,0 +1,110 @@
+name: Refresh Rankings
+
+# US-05: run the existing ingestion + ranking scripts on a schedule so
+# rankings stay current without anyone running them by hand.
+#
+# Schedule: twice a week, Saturday and Sunday mornings (13:00 UTC).
+#
+# API usage: scripts/ingest_games.py makes exactly ONE HTTP call to
+# CollegeFootballData per run (a single GET /games request -- see the
+# script, it isn't per-game). Two runs/week x ~17 weeks/season is roughly
+# 35 calls a season, far under CFBD's free-tier limit of 1,000 calls/month.
+# scripts/compute_rankings.py makes no external calls at all -- it only
+# reads games already sitting in the database. workflow_dispatch (manual
+# runs) count against the same budget, so avoid re-running this
+# repeatedly just to "check" -- once is enough to pick up new games.
+#
+# Because main is a protected branch requiring a teammate's PR approval,
+# this workflow does NOT push straight to main. It commits the refreshed
+# backend/cfbrank.db to a bot branch and opens (or updates) a pull request
+# for a teammate to review and merge -- same as any other change, just
+# nobody had to run the scripts by hand first.
+
+on:
+  schedule:
+    - cron: "0 13 * * 6" # Saturday 13:00 UTC
+    - cron: "0 13 * * 0" # Sunday 13:00 UTC
+  workflow_dispatch: {} # manual run from the Actions tab (e.g. to backfill after adding this workflow)
+
+# Stop a second run from starting (and racing to push) while one is still going.
+concurrency:
+  group: refresh-rankings
+  cancel-in-progress: false
+
+permissions:
+  contents: write # to push the bot branch
+  pull-requests: write # to open/find the PR
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # need full history so the bot branch can be reset from main each run
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+          cache-dependency-path: backend/requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Determine season year
+        id: season
+        run: |
+          MONTH=$(date -u +%m)
+          YEAR=$(date -u +%Y)
+          # Bowl/CFP games in January still belong to the previous fall's season.
+          if [ "$MONTH" = "01" ]; then
+            YEAR=$((YEAR - 1))
+          fi
+          echo "year=$YEAR" >> "$GITHUB_OUTPUT"
+
+      - name: Ingest latest games (1 CFBD API call)
+        env:
+          CFBD_API_KEY: ${{ secrets.CFBD_API_KEY }}
+        run: python -m scripts.ingest_games --year ${{ steps.season.outputs.year }}
+
+      - name: Recompute power ratings (DB only, no API calls)
+        run: python -m scripts.compute_rankings --year ${{ steps.season.outputs.year }}
+
+      - name: Check whether the database actually changed
+        id: diff
+        run: |
+          if git diff --quiet -- cfbrank.db; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Open or update a PR with the refreshed data
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          BRANCH="automated/refresh-rankings"
+          git checkout -B "$BRANCH"
+          git add cfbrank.db
+          git commit -m "chore: refresh rankings ($(date -u +%F))"
+          git push -f origin "$BRANCH"
+
+          if ! gh pr view "$BRANCH" >/dev/null 2>&1; then
+            gh pr create \
+              --base main \
+              --head "$BRANCH" \
+              --title "Automated rankings refresh ($(date -u +%F))" \
+              --body "Opened automatically by the refresh-rankings workflow: latest games ingested from CollegeFootballData and power ratings recomputed. Review and merge to publish to main."
+          else
+            echo "PR already open for $BRANCH -- pushed new commit to it."
+          fi
