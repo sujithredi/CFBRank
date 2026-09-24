@@ -21,14 +21,15 @@ The API key itself will not be printed.
 Visit [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs) for the auto-generated FastAPI documentation.
 
 ## Run the frontend
-
+ 
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
-
+ 
 Visit the local URL that Vite prints, typically [http://localhost:5173/](http://localhost:5173/). It should show a **CFB Rank** heading.
-
+ 
 python -m scripts.compute_rankings --year 2026
 python -m scripts.ingest_games --year 2026
+python -m scripts.ingest_lines --year 2026

@@ -1,5 +1,5 @@
 """
-Power-rating model: margin-of-victory regression (SRS/Massey-style).
+Power-rating model: margin-of-victory regression.
 
 Every game contributes two rows -- one from each team's point of view --
 and we fit
@@ -13,41 +13,25 @@ it would be expected to beat an average team by on a neutral field.
 home-field-advantage adjustment instead of baking it into every team's
 number.
 
-This is the same design as the standalone lin_rank.py prototype, cleaned
-up into a function that takes a DataFrame (from the CFBD-backed games
-table, a CSV, or a unit test) instead of a hardcoded local file path.
-
-Input contract
+Input
 --------------
-`games` needs one row per game with these columns:
     team            -- name of the first team
     opponent        -- name of the second team
     team_score      -- team's points
     opponent_score  -- opponent's points
     margin          -- team_score - opponent_score
-    Location        -- 1 if `team` was at home, -1 if `team` was away,
-                        0 if neutral site
+    Location        -- 1 if `team` was at home, -1 if `team` was away, 0 if neutral site
 
 Only ONE row per game is expected here (not already mirrored) -- e.g. for
 a CFBD game, put the home team in `team` and use Location=1 (or 0 for a
 neutral site). `compute_power_ratings` generates the opponent's-eye-view
 row itself.
-
-Known limitation
------------------
-Like any schedule-strength regression (SRS, Massey, Colley, etc.), this
-needs the games graph to be reasonably well-connected -- if two groups of
-teams haven't played anyone in common yet (common early in a season, or
-in a toy/filtered dataset), the least-squares solution can't tell the
-groups' overall strength apart and the resulting ratings for one group
-can be arbitrarily shifted relative to the other. Sanity-check early
--season output against a human poll before trusting it, and consider
-requiring a minimum number of weeks/games before publishing rankings.
 """
 
 from __future__ import annotations
 
 import pandas as pd
+import math
 from sklearn.linear_model import LinearRegression
 
 REQUIRED_COLUMNS = ["team", "opponent", "team_score", "opponent_score", "margin", "Location"]
@@ -128,3 +112,42 @@ def record_from_games(games: pd.DataFrame) -> pd.DataFrame:
     summary = all_records.groupby("team", as_index=False).sum()
     summary = summary.rename(columns={"win": "wins", "loss": "losses"})
     return summary
+
+DEFAULT_HOME_FIELD_ADVANTAGE = 2.5
+DEFAULT_MARGIN_SCALE = 9.0
+
+def expected_margin(
+    home_rating: float,
+    away_rating: float,
+    home_field_advantage: float = DEFAULT_HOME_FIELD_ADVANTAGE,
+) -> float:
+    """
+    Expected home-team margin of victory, in points: positive means the
+    home team is favored, negative means the away team is. `home_rating`/
+    `away_rating` are each team's fitted coefficient from
+    `compute_power_ratings` -- expected points better than an average team
+    on a neutral field. Pass `home_field_advantage=0` for a neutral site.
+    """
+    return (home_rating - away_rating) + home_field_advantage
+
+def win_probability_from_margin(margin: float) -> float:
+    """
+    Logistic squash of an expected point margin into a win probability in
+    (0, 1). See `predict_win_probability` for how the default `scale` was
+    chosen and what it implies at a few sample margins.
+    """
+    return 1.0 / (1.0 + math.exp(-((margin * 0.1533) + 0.0533)))
+
+def predict_win_probability(
+    home_rating: float,
+    away_rating: float,
+    home_field_advantage: float = DEFAULT_HOME_FIELD_ADVANTAGE,
+    scale: float = DEFAULT_MARGIN_SCALE,
+) -> float:
+    """
+    Turn a matchup between two power ratings into a home-team win
+    probability (US-03: "the model's win probability" for the weekly odds
+    view). Equivalent to `win_probability_from_margin(expected_margin(...))`
+    """
+    margin = expected_margin(home_rating, away_rating, home_field_advantage)
+    return win_probability_from_margin(margin, scale)
