@@ -150,4 +150,4 @@ def predict_win_probability(
     view). Equivalent to `win_probability_from_margin(expected_margin(...))`
     """
     margin = expected_margin(home_rating, away_rating, home_field_advantage)
-    return win_probability_from_margin(margin, scale)
+    return win_probability_from_margin(margin)

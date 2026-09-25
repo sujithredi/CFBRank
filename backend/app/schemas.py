@@ -61,11 +61,12 @@ class GameOdds(BaseModel):
     start_date: datetime
     home_team: str
     away_team: str
-    model_home_win_prob: float          # 0-1
-    market_spread: float | None         # negative favors home, per convention
+    model_predicted_margin: float
+    model_home_win_prob: float
+    market_spread: float | None
     market_home_moneyline: int | None
     market_away_moneyline: int | None
-    delta: float | None                 # model prob minus market-implied prob
+    delta: float | None
 
 
 class WeeklyOddsResponse(BaseModel):

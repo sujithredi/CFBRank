@@ -57,12 +57,12 @@ function WeeklyOdds() {
         <thead>
           <tr>
             <th>Kickoff</th>
-            <th>Away</th>
             <th>Home</th>
+            <th>Away</th>
             <th>Margin</th>
             <th>Home Win %</th>
             <th>Away Win %</th>
-            <th>Market Spread</th>
+            <th>Spread</th>
             <th>Home ML</th>
             <th>Away ML</th>
           </tr>
@@ -80,8 +80,8 @@ function WeeklyOdds() {
             return (
               <tr key={game.game_id}>
                 <td>{new Date(game.start_date).toLocaleString()}</td>
-                <td>{game.away_team}</td>
                 <td>{game.home_team}</td>
+                <td>{game.away_team}</td>
                 <td>{game.model_predicted_margin}</td>
                 <td>{(game.model_home_win_prob * 100).toFixed(1)}%</td>
                 <td>{((1 - game.model_home_win_prob) * 100).toFixed(1)}%</td>
