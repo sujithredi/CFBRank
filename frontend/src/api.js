@@ -18,6 +18,20 @@ export async function fetchRankings() {
 }
 
 /**
+ * GET /api/teams/{team_id}
+ * Returns team detail metadata such as the recent results and rating trend.
+ */
+export async function fetchTeamDetail(teamId) {
+  const response = await fetch(`${API_BASE_URL}/api/teams/${teamId}`)
+
+  if (!response.ok) {
+    throw new Error(`Team detail request failed with status ${response.status}`)
+  }
+
+  return response.json()
+}
+
+/**
  * GET /api/odds/weekly
  * Returns { season, week, games: [...] }, one entry per upcoming game with
  * the model's predicted margin/win probability and (when ingested) the

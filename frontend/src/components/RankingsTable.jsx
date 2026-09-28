@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react'
 import { fetchRankings } from '../api'
 
-// US-01: ranked list of all FBS teams with a power score, conference, and
-// record. No styling/logos yet -- plain markup so the data flow can be
-// verified first (per Milestone 0 scope).
-function RankingsTable() {
+function RankingsTable({ selectedTeamId, onSelectTeam }) {
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -32,12 +29,12 @@ function RankingsTable() {
   }, [])
 
   if (isLoading) {
-    return <p>Loading rankings...</p>
+    return <p className="status-copy">Loading rankings...</p>
   }
 
   if (error) {
     return (
-      <p>
+      <p className="status-copy error-copy">
         Couldn't load rankings ({error}). Make sure the backend is running at
         the configured API URL.
       </p>
@@ -45,39 +42,49 @@ function RankingsTable() {
   }
 
   if (!data || data.rankings.length === 0) {
-    return <p>No rankings available yet.</p>
+    return <p className="status-copy">No rankings available yet.</p>
   }
 
   return (
     <div>
-      <p>
-        Season {data.season}, Week {data.week} &middot; last updated{' '}
+      <p className="meta-row">
+        Season {data.season}, Week {data.week} &middot; updated{' '}
         {new Date(data.last_updated).toLocaleString()}
       </p>
-      <table>
-        <thead>
-          <tr>
-            <th>Rank</th>
-            <th>Team</th>
-            <th>Conference</th>
-            <th>W</th>
-            <th>L</th>
-            <th>Power Score</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.rankings.map((team) => (
-            <tr key={team.rank}>
-              <td>{team.rank}</td>
-              <td>{team.team}</td>
-              <td>{team.conference}</td>
-              <td>{team.wins}</td>
-              <td>{team.losses}</td>
-              <td>{team.power_score}</td>
+      <div className="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Team</th>
+              <th>Conference</th>
+              <th>W</th>
+              <th>L</th>
+              <th>Power Score</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {data.rankings.map((team) => (
+              <tr key={team.rank} className={selectedTeamId === team.rank ? 'selected-row' : ''}>
+                <td>{team.rank}</td>
+                <td>
+                  <button
+                    type="button"
+                    className={`team-button ${selectedTeamId === team.rank ? 'active' : ''}`}
+                    onClick={() => onSelectTeam?.(team.rank)}
+                  >
+                    {team.team}
+                  </button>
+                </td>
+                <td>{team.conference}</td>
+                <td>{team.wins}</td>
+                <td>{team.losses}</td>
+                <td>{team.power_score.toFixed(1)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }
