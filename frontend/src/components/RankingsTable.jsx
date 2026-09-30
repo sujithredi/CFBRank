@@ -65,13 +65,14 @@ function RankingsTable({ selectedTeamId, onSelectTeam }) {
           </thead>
           <tbody>
             {data.rankings.map((team) => (
-              <tr key={team.rank} className={selectedTeamId === team.rank ? 'selected-row' : ''}>
+              <tr key={team.rank} className={selectedTeamId === team.team_id ? 'selected-row' : ''}>
                 <td>{team.rank}</td>
                 <td>
                   <button
                     type="button"
-                    className={`team-button ${selectedTeamId === team.rank ? 'active' : ''}`}
-                    onClick={() => onSelectTeam?.(team.rank)}
+                    className={`team-button ${selectedTeamId === team.team_id ? 'active' : ''}`}
+                    disabled={team.team_id == null}
+                    onClick={() => onSelectTeam?.(team.team_id)}
                   >
                     {team.team}
                   </button>

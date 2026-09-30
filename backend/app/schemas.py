@@ -16,6 +16,9 @@ from pydantic import BaseModel
 
 class RankingEntry(BaseModel):
     rank: int
+    # teams.id -- what /api/teams/{team_id} expects. None only for the hardcoded
+    # fallback rows, which don't correspond to real database teams.
+    team_id: int | None = None
     team: str
     conference: str
     wins: int

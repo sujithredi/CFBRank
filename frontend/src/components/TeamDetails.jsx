@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { fetchTeamDetail } from '../api'
 
-function TeamDetails({ teamId = 1 }) {
+function TeamDetails({ teamId = null }) {
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(true)

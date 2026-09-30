@@ -63,6 +63,7 @@ def get_rankings(season: int | None = None, week: int | None = None, db: Session
             PowerRating.losses,
             PowerRating.rating,
             Conference.name,
+            Team.id,
         )
         .join(Team, PowerRating.team_id == Team.id)
         .outerjoin(Conference, Team.conference_id == Conference.id)
@@ -83,13 +84,14 @@ def get_rankings(season: int | None = None, week: int | None = None, db: Session
     rankings = [
         RankingEntry(
             rank=rank,
+            team_id=team_id,
             team=school,
             conference=conference_name or "Independent",
             wins=wins,
             losses=losses,
             power_score=round(rating, 2),
         )
-        for rank, school, wins, losses, rating, conference_name in rows
+        for rank, school, wins, losses, rating, conference_name, team_id in rows
     ]
 
     return RankingsResponse(season=season, week=week, last_updated=last_updated, rankings=rankings)
