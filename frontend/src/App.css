@@ -77,7 +77,7 @@
 }
 
 .meta-row {
-  margin: 0 0 14px;
+  margin: 0 0 7px;
   color: #52607b;
   font-size: 0.86rem;
 }
@@ -90,21 +90,26 @@ table {
   width: 100%;
   border-collapse: collapse;
   min-width: 620px;
+  font-family: 'Roboto', Arial, sans-serif;
+  border-top: 1px solid #d9dde2;
+  border-right: 1px solid #d9dde2;
+  border-left: 1px solid #d9dde2;
 }
 
 thead th {
   padding: 12px 10px;
-  text-align: left;
+  text-align: center;
   font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #64748b;
-  border-bottom: 1px solid #e2e8f0;
+  color: #1f2937;
+  border-bottom: 1px solid #d9dde2;
+  border-left: 1px solid #d9dde2;
 }
 
 tbody td {
-  padding: 12px 10px;
-  border-bottom: 1px solid #eef2f7;
+  padding: 10px 8px;
+  border-bottom: 1px solid #d9dde2;
   color: #1f2937;
   vertical-align: middle;
 }
@@ -127,6 +132,20 @@ tbody tr:hover {
   text-align: left;
   cursor: pointer;
   transition: color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.team-logo {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.team-logo.placeholder {
+  display: inline-block;
 }
 
 .team-button:hover {

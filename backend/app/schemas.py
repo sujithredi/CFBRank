@@ -20,6 +20,9 @@ class RankingEntry(BaseModel):
     # fallback rows, which don't correspond to real database teams.
     team_id: int | None = None
     team: str
+    # teams.logo_url from the database. None for the hardcoded fallback rows
+    # and for any team without a logo on file.
+    logo_url: str | None = None
     conference: str
     wins: int
     losses: int

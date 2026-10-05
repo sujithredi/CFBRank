@@ -1,6 +1,27 @@
 import { useEffect, useState } from 'react'
 import { fetchRankings } from '../api'
 
+// Team logo with a fixed-size slot
+function TeamLogo({ url }) {
+  const [failed, setFailed] = useState(false)
+
+  if (!url || failed) {
+    return <span className="team-logo placeholder" aria-hidden="true" />
+  }
+
+  return (
+    <img
+      className="team-logo"
+      src={url}
+      alt=""
+      width="28"
+      height="28"
+      loading="lazy"
+      onError={() => setFailed(true)}
+    />
+  )
+}
+
 function RankingsTable({ selectedTeamId, onSelectTeam }) {
   const [data, setData] = useState(null)
   const [error, setError] = useState(null)
@@ -58,9 +79,8 @@ function RankingsTable({ selectedTeamId, onSelectTeam }) {
               <th>Rank</th>
               <th>Team</th>
               <th>Conference</th>
-              <th>W</th>
-              <th>L</th>
-              <th>Power Score</th>
+              <th>W-L</th>
+              <th>Power Rating</th>
             </tr>
           </thead>
           <tbody>
@@ -74,12 +94,12 @@ function RankingsTable({ selectedTeamId, onSelectTeam }) {
                     disabled={team.team_id == null}
                     onClick={() => onSelectTeam?.(team.team_id)}
                   >
-                    {team.team}
+                    <TeamLogo url={team.logo_url} />
+                    <span>{team.team}</span>
                   </button>
                 </td>
                 <td>{team.conference}</td>
-                <td>{team.wins}</td>
-                <td>{team.losses}</td>
+                <td>{team.wins}-{team.losses}</td>
                 <td>{team.power_score.toFixed(1)}</td>
               </tr>
             ))}
