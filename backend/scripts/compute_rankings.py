@@ -13,6 +13,9 @@ Usage (run from backend/):
     python -m scripts.compute_rankings --year 2026 --through-week 5
     python -m scripts.compute_rankings --year 2026 --season-type postseason
 
+Each snapshot stores an overall rating (`rating`, what the ranking sorts on)
+plus separate offense and defense ratings -- see app/ranking.py.
+
 --through-week limits the model to games up through that week, e.g. to
 reproduce what the rankings looked like at a given point in the season.
 Omit it to use every completed game on file for that season/season-type.
@@ -70,10 +73,9 @@ def load_games_frame(db: Session, year: int, season_type: str, through_week: int
 
     rows = query.all()
     if not rows:
-        return pd.DataFrame(columns=["team", "opponent", "team_score", "opponent_score", "margin", "Location", "week"])
+        return pd.DataFrame(columns=["team", "opponent", "team_score", "opponent_score", "Location", "week"])
 
     games = pd.DataFrame(rows, columns=["team", "opponent", "team_score", "opponent_score", "neutral_site", "week"])
-    games["margin"] = games["team_score"] - games["opponent_score"]
     games["Location"] = games["neutral_site"].apply(lambda neutral: 0 if neutral else 1)
     return games.drop(columns=["neutral_site"])
 
@@ -97,7 +99,9 @@ def write_ratings(db: Session, ratings: pd.DataFrame, records: pd.DataFrame, yea
             power_rating = PowerRating(team_id=team.id, season=year, week=week)
             db.add(power_rating)
 
-        power_rating.rating = float(row.rating)
+        power_rating.rating = float(row.rating)  # overall = offense + defense
+        power_rating.offense_rating = float(row.offense)
+        power_rating.defense_rating = float(row.defense)
         power_rating.rank = int(row.rank)
         power_rating.wins = int(row.wins)
         power_rating.losses = int(row.losses)
@@ -145,8 +149,12 @@ def main() -> None:
         print(f"\nWrote {written} PowerRating row(s) for {args.year} week {snapshot_week}.\n")
         print(f"Top {min(args.top, len(ratings))}:")
         preview = ratings.merge(records, on="team", how="left").fillna(0)
+        print(f"  {'':>3}  {'':<25} {'overall':>8} {'offense':>8} {'defense':>8}")
         for row in preview.head(args.top).itertuples(index=False):
-            print(f"  {row.rank:>3}. {row.team:<25} rating={row.rating:7.2f}  ({int(row.wins)}-{int(row.losses)})")
+            print(
+                f"  {row.rank:>3}. {row.team:<25} {row.rating:8.2f} {row.offense:8.2f} {row.defense:8.2f}"
+                f"  ({int(row.wins)}-{int(row.losses)})"
+            )
     except Exception:
         db.rollback()
         raise

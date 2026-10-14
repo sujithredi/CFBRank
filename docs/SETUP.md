@@ -33,3 +33,4 @@ Visit the local URL that Vite prints, typically [http://localhost:5173/](http://
 python -m scripts.compute_rankings --year 2026
 python -m scripts.ingest_games --year 2026
 python -m scripts.ingest_lines --year 2026
+python -m scripts.simulate_season

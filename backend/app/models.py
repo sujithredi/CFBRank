@@ -142,7 +142,13 @@ class PowerRating(Base):
     season: Mapped[int] = mapped_column(Integer, index=True)
     week: Mapped[int] = mapped_column(Integer, index=True)
 
+    # `rating` is the OVERALL rating (offense + defense); the ranking sorts on it.
+    # offense_rating / defense_rating are each centered on 0 = league average and
+    # positive = better. Nullable so snapshots written before these columns
+    # existed stay valid until compute_rankings is re-run.
     rating: Mapped[float] = mapped_column(Float)
+    offense_rating: Mapped[float | None] = mapped_column(Float, nullable=True)
+    defense_rating: Mapped[float | None] = mapped_column(Float, nullable=True)
     rank: Mapped[int | None] = mapped_column(Integer, nullable=True)
     wins: Mapped[int] = mapped_column(Integer, default=0)
     losses: Mapped[int] = mapped_column(Integer, default=0)
@@ -153,3 +159,45 @@ class PowerRating(Base):
 
     def __repr__(self) -> str:
         return f"<PowerRating team={self.team_id} wk{self.week} rating={self.rating}>"
+
+
+class SeasonProjection(Base):
+    """
+    Monte Carlo projection of a team's regular season -- written by
+    scripts/simulate_season.py (see app/season_simulation.py), not CFBD.
+
+    `week` is the week of the PowerRating snapshot the simulation used, so a
+    projection lines up with the ranking row for the same (team, season, week).
+    """
+
+    __tablename__ = "season_projections"
+    __table_args__ = (UniqueConstraint("team_id", "season", "week", name="uq_projection_team_season_week"),)
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    team_id: Mapped[int] = mapped_column(ForeignKey("teams.id"))
+    season: Mapped[int] = mapped_column(Integer, index=True)
+    week: Mapped[int] = mapped_column(Integer, index=True)
+    n_simulations: Mapped[int] = mapped_column(Integer)
+
+    avg_wins: Mapped[float] = mapped_column(Float)  # regular-season wins, games already played included
+    avg_losses: Mapped[float] = mapped_column(Float)
+    bowl_pct: Mapped[float | None] = mapped_column(Float, nullable=True)  # 0-100; null for FCS teams
+    undefeated_pct: Mapped[float] = mapped_column(Float)  # 0-100
+    # Conference championship game (see app/conference_championships.py). 0-100;
+    # null for teams whose conference has no title game. Never part of avg_wins/avg_losses.
+    title_game_pct: Mapped[float | None] = mapped_column(Float, nullable=True)  # plays in the game
+    conf_champ_pct: Mapped[float | None] = mapped_column(Float, nullable=True)  # wins the game
+    # Selected for the College Football Playoff field (app/playoff.py). 0-100; null for FCS teams.
+    playoff_pct: Mapped[float | None] = mapped_column(Float, nullable=True)
+    # The playoff games (app/playoff_bracket.py), each 0-100 out of all simulated seasons; null
+    # for FCS teams. A team that misses the field is a 0 here, not a null.
+    cfp_bye_pct: Mapped[float | None] = mapped_column(Float, nullable=True)  # a top-4 seed
+    cfp_quarterfinal_pct: Mapped[float | None] = mapped_column(Float, nullable=True)  # bye or first-round win
+    cfp_semifinal_pct: Mapped[float | None] = mapped_column(Float, nullable=True)
+    cfp_final_pct: Mapped[float | None] = mapped_column(Float, nullable=True)  # plays for the title
+    cfp_champion_pct: Mapped[float | None] = mapped_column(Float, nullable=True)  # wins the title
+
+    computed_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
+    def __repr__(self) -> str:
+        return f"<SeasonProjection team={self.team_id} wk{self.week} avg_wins={self.avg_wins:.2f}>"

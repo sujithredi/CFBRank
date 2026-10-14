@@ -107,6 +107,8 @@ def get_team_detail(
         wins=latest.wins,
         losses=latest.losses,
         power_score=round(latest.rating, 2),
+        offense_rating=None if latest.offense_rating is None else round(latest.offense_rating, 2),
+        defense_rating=None if latest.defense_rating is None else round(latest.defense_rating, 2),
         recent_results=[_format_result(game, team_id) for game in recent_games],
         rating_trend=[RatingPoint(week=week, rating=round(rating, 2)) for week, rating in trend_rows],
     )

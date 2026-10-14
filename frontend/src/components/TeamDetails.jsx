@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { fetchTeamDetail } from '../api'
+import { formatRating } from '../format'
 
 function TeamDetails({ teamId = null }) {
   const [data, setData] = useState(null)
@@ -66,6 +67,20 @@ function TeamDetails({ teamId = null }) {
         <span>
           {data.wins}-{data.losses}
         </span>
+      </div>
+
+      <div className="detail-block">
+        <h4>Rating breakdown</h4>
+        <div className="split-ratings">
+          <div className="split-rating">
+            <small>Offense</small>
+            <strong>{formatRating(data.offense_rating)}</strong>
+          </div>
+          <div className="split-rating">
+            <small>Defense</small>
+            <strong>{formatRating(data.defense_rating)}</strong>
+          </div>
+        </div>
       </div>
 
       <div className="detail-block">

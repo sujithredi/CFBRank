@@ -46,3 +46,39 @@ export async function fetchWeeklyOdds() {
 
   return response.json()
 }
+
+/**
+ * POST /api/matchup/simulate
+ * Simulates games between two teams (by teams.id) and returns both teams'
+ * expected points, every simulated game, and a summary across them. Each call
+ * is a fresh set of random games.
+ *
+ * options.location: 'neutral' (default), 'team_a_home' or 'team_b_home'.
+ * options.numGames: how many games to simulate (the backend allows 1-1000).
+ */
+export async function simulateMatchup(teamAId, teamBId, { location = 'neutral', numGames = 1 } = {}) {
+  const response = await fetch(`${API_BASE_URL}/api/matchup/simulate`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      team_a_id: teamAId,
+      team_b_id: teamBId,
+      location,
+      num_games: numGames,
+    }),
+  })
+
+  if (!response.ok) {
+    // FastAPI sends { detail: "..." } for errors we raise on purpose; show that.
+    let detail = null
+    try {
+      const body = await response.json()
+      if (typeof body.detail === 'string') detail = body.detail
+    } catch {
+      // Body wasn't JSON -- fall through to the generic message.
+    }
+    throw new Error(detail ?? `Matchup request failed with status ${response.status}`)
+  }
+
+  return response.json()
+}

@@ -45,7 +45,8 @@ def seeded(db):
     db.add_all([alabama, no_logo])
     db.flush()
 
-    db.add(PowerRating(team_id=alabama.id, season=2026, week=4, rating=40.0, rank=1, wins=4, losses=0))
+    db.add(PowerRating(team_id=alabama.id, season=2026, week=4, rating=40.0, rank=1, wins=4, losses=0,
+                      offense_rating=24.256, defense_rating=15.744))
     db.add(PowerRating(team_id=no_logo.id, season=2026, week=4, rating=10.0, rank=2, wins=2, losses=2))
     db.commit()
 
@@ -72,3 +73,25 @@ def test_fallback_rankings_still_serve_with_null_logos(client):
     rankings = response.json()["rankings"]
     assert rankings
     assert all(entry["logo_url"] is None for entry in rankings)
+
+
+def test_rankings_include_offense_and_defense_alongside_overall(client, seeded):
+    alabama = client.get("/api/rankings").json()["rankings"][0]
+
+    assert alabama["power_score"] == 40.0
+    assert alabama["offense_rating"] == 24.26
+    assert alabama["defense_rating"] == 15.74
+
+
+def test_snapshot_from_before_the_split_gets_null_offense_and_defense(client, seeded):
+    # "No Logo U" was stored without offense/defense, like rows already in an old cfbrank.db.
+    entry = client.get("/api/rankings").json()["rankings"][1]
+
+    assert entry["power_score"] == 10.0
+    assert entry["offense_rating"] is None
+    assert entry["defense_rating"] is None
+
+
+def test_fallback_rankings_have_null_offense_and_defense(client):
+    rankings = client.get("/api/rankings").json()["rankings"]
+    assert all(e["offense_rating"] is None and e["defense_rating"] is None for e in rankings)

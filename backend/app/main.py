@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app import rankings
 from app.database import init_db
-from app.routers import odds, teams
+from app.routers import matchup, odds, teams
 
 load_dotenv()  # reads backend/.env when running locally
 
@@ -34,6 +34,7 @@ app.add_middleware(
 app.include_router(rankings.router)
 app.include_router(teams.router)
 app.include_router(odds.router)
+app.include_router(matchup.router)
 
 
 @app.get("/")

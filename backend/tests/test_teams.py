@@ -68,8 +68,10 @@ def seeded(db):
     db.add(_game(3000, 12, alabama, ohio, 50, 0, season=2025))
 
     for week, rating in [(2, 20.0), (3, 25.5), (4, 31.256)]:
+        # Only the latest snapshot has the offense/defense split (older ones predate it).
+        split = {"offense_rating": 18.123, "defense_rating": 13.133} if week == 4 else {}
         db.add(PowerRating(team_id=alabama.id, season=2026, week=week, rating=rating,
-                           rank=3, wins=week, losses=0))
+                           rank=3, wins=week, losses=0, **split))
     db.add(PowerRating(team_id=alabama.id, season=2025, week=15, rating=5.0, rank=40, wins=6, losses=6))
     db.add(PowerRating(team_id=ohio.id, season=2026, week=4, rating=40.0, rank=1, wins=4, losses=0))
     db.commit()
@@ -133,3 +135,14 @@ def test_team_without_a_rating_is_404(client, seeded):
 @pytest.mark.parametrize("bad_id", ["0", "-5", str(10**30), "abc"])
 def test_invalid_ids_are_rejected_not_500(client, seeded, bad_id):
     assert client.get(f"/api/teams/{bad_id}").status_code == 422
+
+
+def test_team_detail_includes_offense_and_defense(client, seeded):
+    body = client.get("/api/teams/10").json()
+    assert (body["power_score"], body["offense_rating"], body["defense_rating"]) == (31.26, 18.12, 13.13)
+
+
+def test_team_detail_offense_defense_null_when_snapshot_predates_split(client, seeded):
+    body = client.get("/api/teams/20").json()  # Ohio State's only snapshot has no split
+    assert body["power_score"] == 40.0
+    assert body["offense_rating"] is None and body["defense_rating"] is None
