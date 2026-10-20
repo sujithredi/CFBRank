@@ -299,6 +299,72 @@ a.team-link:hover {
   color: #64748b;
 }
 
+.schedule-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #f8fafc;
+}
+
+.schedule-row {
+  display: grid;
+  grid-template-columns: 28px 28px minmax(0, 1fr) 20px 56px;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 0.95rem;
+  color: #0f172a;
+}
+
+.schedule-row:last-child {
+  border-bottom: none;
+}
+
+.schedule-location {
+  color: #475569;
+  font-weight: 600;
+}
+
+.schedule-opponent {
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.schedule-outcome {
+  font-weight: 800;
+  text-align: center;
+}
+
+.outcome-W {
+  color: #16a34a;
+}
+
+.outcome-L {
+  color: #dc2626;
+}
+
+.outcome-T {
+  color: #64748b;
+}
+
+.schedule-score,
+.schedule-date {
+  font-weight: 700;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Upcoming games have no W/L column, so the date takes both right-hand slots. */
+.schedule-date {
+  grid-column: 4 / 6;
+}
+
 .trend-chart {
   display: flex;
   align-items: end;
@@ -412,6 +478,110 @@ a.team-link:hover {
 
 .back-link:hover {
   text-decoration: underline;
+}
+
+.team-page-links {
+  display: flex;
+  gap: 16px;
+}
+
+.team-directory {
+  max-width: none;
+}
+
+.team-directory-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.team-directory-header h2 {
+  margin: 0;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  letter-spacing: -0.03em;
+}
+
+.conference-filter {
+  padding: 0.55rem 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 999px;
+  background: #fff;
+  color: #0f172a;
+  font: inherit;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.conference-filter:disabled {
+  color: #64748b;
+  background: #f1f5f9;
+  cursor: default;
+}
+
+.conference-grid {
+  column-count: 2;
+  column-gap: 40px;
+}
+
+.conference-section {
+  /* Keep a conference in one column; the columns flow so there are no gaps
+     when conferences have different numbers of teams. */
+  break-inside: avoid;
+  padding-bottom: 36px;
+}
+
+.conference-section h3 {
+  margin: 0 0 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.team-tile-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.team-tile {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  color: #0f172a;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.team-tile:hover,
+.team-tile:focus-visible {
+  background: rgba(59, 130, 246, 0.07);
+  color: #1d4ed8;
+}
+
+.team-tile-logo {
+  flex: none;
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.team-tile-logo.placeholder {
+  display: inline-block;
+}
+
+.team-tile-name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
 .team-picker {
@@ -611,6 +781,17 @@ a.team-link:hover {
   font-size: 0.72rem;
   font-weight: 700;
   color: #1d4ed8;
+}
+
+@media (max-width: 760px) {
+  .conference-grid {
+    column-count: 1;
+  }
+
+  .team-directory-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 
 @media (max-width: 600px) {

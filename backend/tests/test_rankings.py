@@ -36,7 +36,7 @@ def client(db):
 
 @pytest.fixture()
 def seeded(db):
-    sec = Conference(id=1, cfbd_id=8, name="SEC")
+    sec = Conference(id=1, cfbd_id=8, name="SEC", classification="fbs")
     db.add(sec)
     db.flush()
 
@@ -63,6 +63,19 @@ def test_team_without_a_logo_gets_null_not_an_error(client, seeded):
 
     assert rankings[1]["team"] == "No Logo U"
     assert rankings[1]["logo_url"] is None
+
+
+def test_rankings_include_the_conference_classification(client, seeded):
+    rankings = client.get("/api/rankings").json()["rankings"]
+
+    assert rankings[0]["conference"] == "SEC"
+    assert rankings[0]["conference_classification"] == "fbs"
+
+
+def test_fallback_rankings_have_null_conference_classification(client):
+    rankings = client.get("/api/rankings").json()["rankings"]
+
+    assert all(entry["conference_classification"] is None for entry in rankings)
 
 
 def test_fallback_rankings_still_serve_with_null_logos(client):

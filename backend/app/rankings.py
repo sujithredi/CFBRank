@@ -65,6 +65,7 @@ def get_rankings(season: int | None = None, week: int | None = None, db: Session
             PowerRating.offense_rating,
             PowerRating.defense_rating,
             Conference.name,
+            Conference.classification,
             Team.id,
             Team.logo_url,
             SeasonProjection.avg_wins,
@@ -120,6 +121,7 @@ def get_rankings(season: int | None = None, week: int | None = None, db: Session
             team=school,
             logo_url=logo_url,
             conference=conference_name or "Independent",
+            conference_classification=conference_classification,
             wins=wins,
             losses=losses,
             power_score=round(rating, 2),
@@ -139,7 +141,8 @@ def get_rankings(season: int | None = None, week: int | None = None, db: Session
             cfp_champion_pct=rounded(cfp_champion_pct),
         )
         for (
-            rank, school, wins, losses, rating, offense, defense, conference_name, team_id, logo_url,
+            rank, school, wins, losses, rating, offense, defense, conference_name, conference_classification,
+            team_id, logo_url,
             proj_wins, proj_losses, bowl_pct, undefeated_pct, title_game_pct, conf_champ_pct, playoff_pct,
             cfp_bye_pct, cfp_quarterfinal_pct, cfp_semifinal_pct, cfp_final_pct, cfp_champion_pct,
         ) in rows

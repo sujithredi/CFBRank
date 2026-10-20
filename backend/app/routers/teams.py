@@ -9,6 +9,7 @@ rankings endpoint returns as `team_id`. It is not the CFBD id and not the
 team's current rank (ranks change every week).
 """
 
+from datetime import datetime, timezone
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, Path
@@ -17,7 +18,7 @@ from sqlalchemy.orm import Session, joinedload
 
 from app.database import get_db
 from app.models import Conference, Game, PowerRating, Team
-from app.schemas import RatingPoint, RecentResult, TeamDetailResponse
+from app.schemas import RatingPoint, RecentResult, ScheduleGame, TeamDetailResponse
 
 router = APIRouter(prefix="/api/teams", tags=["teams"])
 
@@ -28,6 +29,14 @@ RECENT_RESULTS_LIMIT = 5
 MAX_TEAM_ID = 2_147_483_647
 
 
+def _outcome(team_points: int, opponent_points: int) -> str:
+    if team_points > opponent_points:
+        return "W"
+    if team_points < opponent_points:
+        return "L"
+    return "T"
+
+
 def _format_result(game: Game, team_id: int) -> RecentResult:
     """One finished game from `team_id`'s point of view, e.g. 'W 34-17'."""
     is_home = game.home_team_id == team_id
@@ -35,17 +44,46 @@ def _format_result(game: Game, team_id: int) -> RecentResult:
     opponent_points = game.away_points if is_home else game.home_points
     opponent = game.away_team if is_home else game.home_team
 
-    if team_points > opponent_points:
-        outcome = "W"
-    elif team_points < opponent_points:
-        outcome = "L"
-    else:
-        outcome = "T"
-
     return RecentResult(
         week=game.week,
         opponent=opponent.school,
-        result=f"{outcome} {team_points}-{opponent_points}",
+        result=f"{_outcome(team_points, opponent_points)} {team_points}-{opponent_points}",
+    )
+
+
+def _format_schedule_game(game: Game, team_id: int) -> ScheduleGame:
+    """One game, finished or upcoming, from `team_id`'s point of view."""
+    is_home = game.home_team_id == team_id
+    opponent = game.away_team if is_home else game.home_team
+    finished = game.completed and game.home_points is not None and game.away_points is not None
+
+    if game.neutral_site:
+        location = "neutral"
+    else:
+        location = "home" if is_home else "away"
+
+    outcome = score = None
+    if finished:
+        team_points = game.home_points if is_home else game.away_points
+        opponent_points = game.away_points if is_home else game.home_points
+        outcome = _outcome(team_points, opponent_points)
+        score = f"{team_points}-{opponent_points}"
+
+    # SQLite drops the timezone; CFBD start times are UTC, so say so, which lets the
+    # browser show the date in the viewer's own timezone.
+    start_date = game.start_date
+    if start_date is not None and start_date.tzinfo is None:
+        start_date = start_date.replace(tzinfo=timezone.utc)
+
+    return ScheduleGame(
+        week=game.week,
+        opponent=opponent.school,
+        opponent_logo_url=opponent.logo_url,
+        location=location,
+        completed=finished,
+        outcome=outcome,
+        score=score,
+        start_date=start_date,
     )
 
 
@@ -100,6 +138,18 @@ def get_team_detail(
     )
     recent_games.reverse()
 
+    # The whole season, in date order; games with no date yet go last.
+    season_games = (
+        db.query(Game)
+        .options(joinedload(Game.home_team), joinedload(Game.away_team))
+        .filter(
+            or_(Game.home_team_id == team_id, Game.away_team_id == team_id),
+            Game.season == latest.season,
+        )
+        .all()
+    )
+    season_games.sort(key=lambda g: (g.start_date is None, g.start_date or datetime.min, g.week, g.id))
+
     return TeamDetailResponse(
         team=school,
         conference=conference_name or "Independent",
@@ -110,5 +160,6 @@ def get_team_detail(
         offense_rating=None if latest.offense_rating is None else round(latest.offense_rating, 2),
         defense_rating=None if latest.defense_rating is None else round(latest.defense_rating, 2),
         recent_results=[_format_result(game, team_id) for game in recent_games],
+        schedule=[_format_schedule_game(game, team_id) for game in season_games],
         rating_trend=[RatingPoint(week=week, rating=round(rating, 2)) for week, rating in trend_rows],
     )

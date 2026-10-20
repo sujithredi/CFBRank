@@ -18,6 +18,12 @@ numbers are simply averages over the simulated games:
 The home team gets the usual home-field edge unless the game is at a neutral
 site. Each game's simulations are seeded from the game's id, so a given game
 shows the same numbers on every refresh until its teams' ratings change.
+
+Because of that, the simulations are memoized per game and rating values (see
+cached_simulate_matchup): the first request after a ratings change pays for them once, and
+every later request, however many arrive at once, reuses the stored results. The endpoint also
+rate-limits each client (ODDS_RATE_LIMIT_PER_MINUTE) and marks real responses cacheable by
+browsers and CDNs for a few minutes.
  
 Falls back to a small hardcoded response if there's nothing usable in
 the database yet (no games ingested, no ratings computed, or no
@@ -30,19 +36,52 @@ Data flow this endpoint depends on:
     scripts/compute_rankings.py -- writes PowerRating snapshots used here
 """
  
+import os
 import random
+import threading
+from collections import OrderedDict
 from datetime import datetime, timezone
 from typing import NamedTuple
  
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request, Response
 from sqlalchemy.orm import Session, aliased
  
 from app.database import get_db
 from app.models import Game, Line, PowerRating, Team
 from app.ranking import DEFAULT_HOME_FIELD_ADVANTAGE
+from app.ratelimit import RateLimiter, enforce
 from app.schemas import GameOdds, WeeklyOddsResponse
 from app.simulation import load_sorted_scores, simulate_game
  
+ 
+def _env_int(name: str, default: int) -> int:
+    """An int from the environment; a missing or malformed value falls back to `default`."""
+    try:
+        return int(os.getenv(name, default))
+    except ValueError:
+        return default
+
+
+# Per-client limit on this endpoint, per minute (0 turns it off). This is a backstop; the
+# main protection is the simulation cache below, and a reverse proxy / CDN should rate-limit
+# too (see app/ratelimit.py and docs/SETUP.md).
+ODDS_RATE_LIMIT_PER_MINUTE = _env_int("ODDS_RATE_LIMIT_PER_MINUTE", 60)
+_odds_limiter = RateLimiter(max_requests=ODDS_RATE_LIMIT_PER_MINUTE, window_seconds=60)
+
+# How long browsers and CDNs may reuse a response built from real data. The numbers only
+# change when the refresh job runs (twice a week), so a few minutes of staleness is harmless.
+ODDS_CACHE_CONTROL = "public, max-age=300"
+
+
+def _enforce_rate_limit(request: Request) -> None:
+    enforce(_odds_limiter, request)
+
+
+def reset_rate_limiter() -> None:
+    """Forget every client's request history (used by tests)."""
+    _odds_limiter.reset()
+
+
 router = APIRouter(prefix="/api/odds", tags=["odds"])
 
 # How many times each game is simulated. A win probability is the share of these
@@ -118,28 +157,58 @@ def _resolve_season_week(
     return season if season is not None else next_game[0], week if week is not None else next_game[1]
  
  
-def _latest_rating(db: Session, team_id: int, season: int, through_week: int) -> PowerRating | None:
-    """Most recent PowerRating snapshot for this team at or before through_week."""
-    return (
+def _snapshot_order(rating: PowerRating) -> tuple:
+    """Sort key for 'which snapshot is the latest': the later week, then the later computed_at."""
+    return (rating.week, rating.computed_at or datetime.min)
+
+
+def _latest_ratings(db: Session, team_ids: set[int], season: int, through_week: int) -> dict[int, PowerRating]:
+    """
+    Each team's most recent PowerRating snapshot at or before `through_week`, keyed by team id.
+
+    One query for every team in the week. This used to be one query per team per game, which
+    turned a single request for a full week into hundreds of database round trips.
+    """
+    if not team_ids:
+        return {}
+    rows = (
         db.query(PowerRating)
         .filter(
-            PowerRating.team_id == team_id,
+            PowerRating.team_id.in_(team_ids),
             PowerRating.season == season,
             PowerRating.week <= through_week,
         )
-        .order_by(PowerRating.week.desc(), PowerRating.computed_at.desc())
-        .first()
+        .all()
     )
- 
- 
-def _best_line(db: Session, game_id: int) -> Line | None:
-    """Prefer the 'consensus' provider when CFBD gives more than one line for a game."""
-    lines = db.query(Line).filter(Line.game_id == game_id).all()
-    if not lines:
-        return None
-    return next((line for line in lines if line.provider == "consensus"), lines[0])
- 
- 
+    latest: dict[int, PowerRating] = {}
+    for row in rows:
+        best = latest.get(row.team_id)
+        if best is None or _snapshot_order(row) > _snapshot_order(best):
+            latest[row.team_id] = row
+    return latest
+
+
+def _best_lines(db: Session, game_ids: list[int]) -> dict[int, Line]:
+    """
+    One line per game, keyed by game id (games with no line are absent). Prefers the 'consensus'
+    provider when CFBD gives more than one line for a game, otherwise the first provider by name.
+
+    The query used to have no ORDER BY, so "first" was whatever order the database happened to
+    return; SQLite returns a game's lines in the order of the (game_id, provider) unique index,
+    which is by provider name. Ordering by provider says that out loud (and keeps the numbers the
+    page already shows), and makes the choice the same on any database.
+    """
+    if not game_ids:
+        return {}
+    by_game: dict[int, list[Line]] = {}
+    for line in db.query(Line).filter(Line.game_id.in_(game_ids)).order_by(Line.provider).all():
+        by_game.setdefault(line.game_id, []).append(line)
+    return {
+        game_id: next((line for line in lines if line.provider == "consensus"), lines[0])
+        for game_id, lines in by_game.items()
+    }
+
+
 def _implied_home_prob(home_moneyline: int | None) -> float | None:
     """
     American moneyline -> implied win probability. This is the raw
@@ -195,13 +264,109 @@ def simulate_matchup(
     return SimulatedGame(home_wins / num_simulations, home_points / num_simulations, away_points / num_simulations)
 
 
-@router.get("/weekly", response_model=WeeklyOddsResponse)
+# ---- simulation cache ---------------------------------------------------------
+#
+# Simulating a game 1,000 times is the only expensive step in this endpoint, and its result is
+# a pure function of (game id seed, home-site flag, the four ratings, number of simulations):
+# the RNG is seeded from the game id, so repeating the work can only reproduce the same numbers.
+# So each game's result is memoized under exactly those inputs. Keying on the rating *values*
+# (not a timestamp) means a recomputed rating that comes out different is a cache miss by
+# construction, while an unchanged one keeps hitting the cache after the refresh job reruns.
+# The score table from app.simulation is read once per process and never changes while it runs,
+# so it is not part of the key. The cache is per process: with several workers each one builds
+# its own copy, which costs one cold run per worker per week and nothing more.
+
+# One week has at most ~150 games and a season ~1,500, so this holds several weeks' worth.
+SIMULATION_CACHE_MAX_ENTRIES = 5_000
+
+_simulation_cache: OrderedDict[tuple, SimulatedGame] = OrderedDict()
+_simulation_cache_lock = threading.Lock()  # guards _simulation_cache
+_simulation_compute_lock = threading.Lock()  # lets only one request run a simulation at a time
+
+
+def clear_simulation_cache() -> None:
+    """Drop every cached simulation (used by tests)."""
+    with _simulation_cache_lock:
+        _simulation_cache.clear()
+
+
+def _simulation_key(
+    home: PowerRating, away: PowerRating, neutral_site: bool, seed: int, num_simulations: int
+) -> tuple:
+    return (
+        seed,
+        bool(neutral_site),
+        num_simulations,
+        home.offense_rating,
+        home.defense_rating,
+        away.offense_rating,
+        away.defense_rating,
+    )
+
+
+def _cache_get(key: tuple) -> SimulatedGame | None:
+    with _simulation_cache_lock:
+        cached = _simulation_cache.get(key)
+        if cached is not None:
+            _simulation_cache.move_to_end(key)  # most recently used
+        return cached
+
+
+def cached_simulate_matchup(
+    home: PowerRating,
+    away: PowerRating,
+    neutral_site: bool,
+    seed: int,
+    sorted_scores,
+    num_simulations: int = NUM_SIMULATIONS,
+) -> SimulatedGame:
+    """
+    `simulate_matchup`, remembered. The first call for a given game and pair of ratings runs the
+    simulations; every later call returns the stored result in microseconds.
+
+    Concurrent requests for games nobody has simulated yet take turns on a lock and re-check the
+    cache once they get it, so a burst of identical requests (or an attacker repeating one) costs
+    one simulation per game, not one per request.
+    """
+    key = _simulation_key(home, away, neutral_site, seed, num_simulations)
+    cached = _cache_get(key)
+    if cached is not None:
+        return cached
+
+    with _simulation_compute_lock:
+        cached = _cache_get(key)  # another request may have finished it while this one waited
+        if cached is not None:
+            return cached
+
+        result = simulate_matchup(home, away, neutral_site, seed, sorted_scores, num_simulations)
+        with _simulation_cache_lock:
+            _simulation_cache[key] = result
+            while len(_simulation_cache) > SIMULATION_CACHE_MAX_ENTRIES:
+                _simulation_cache.popitem(last=False)  # least recently used
+        return result
+
+
+def _fallback(response: Response) -> WeeklyOddsResponse:
+    """The placeholder rows, marked uncacheable so a CDN or browser never keeps them."""
+    response.headers["Cache-Control"] = "no-store"
+    return _FALLBACK_ODDS
+
+
+@router.get("/weekly", response_model=WeeklyOddsResponse, dependencies=[Depends(_enforce_rate_limit)])
 def get_weekly_odds(
-    season: int | None = None, week: int | None = None, season_type: str = "regular", db: Session = Depends(get_db)
+    response: Response,
+    season: int | None = None,
+    week: int | None = None,
+    season_type: str = "regular",
+    db: Session = Depends(get_db),
 ):
+    # Real data may be reused by browsers and CDNs for a few minutes; the placeholder rows
+    # may not, and _fallback() overrides this header for them.
+    response.headers["Cache-Control"] = ODDS_CACHE_CONTROL
+
     resolved = _resolve_season_week(db, season, week, season_type)
     if resolved is None:
-        return _FALLBACK_ODDS
+        return _fallback(response)
     season, week = resolved
  
     HomeTeam = aliased(Team)
@@ -225,14 +390,19 @@ def get_weekly_odds(
             f"[odds] resolved season={season} week={week} season_type={season_type!r}, but no games "
             "matched that exact combination -- falling back to mock odds."
         )
-        return _FALLBACK_ODDS
+        return _fallback(response)
  
+    # Everything the loop needs from the database, fetched up front (see _latest_ratings).
+    team_ids = {game.home_team_id for game, _, _ in rows} | {game.away_team_id for game, _, _ in rows}
+    ratings = _latest_ratings(db, team_ids, season, week - 1)
+    lines = _best_lines(db, [game.id for game, _, _ in rows])
+
     sorted_scores = load_sorted_scores()
     games: list[GameOdds] = []
     skipped_no_rating = 0
     for game, home_team, away_team in rows:
-        home_rating = _latest_rating(db, game.home_team_id, season, week - 1)
-        away_rating = _latest_rating(db, game.away_team_id, season, week - 1)
+        home_rating = ratings.get(game.home_team_id)
+        away_rating = ratings.get(game.away_team_id)
         if (
             home_rating is None
             or away_rating is None
@@ -245,13 +415,13 @@ def get_weekly_odds(
             skipped_no_rating += 1
             continue
 
-        simulated = simulate_matchup(
+        simulated = cached_simulate_matchup(
             home_rating, away_rating, bool(game.neutral_site), seed=game.cfbd_id, sorted_scores=sorted_scores
         )
         model_prob = simulated.home_win_prob
         margin = simulated.home_points - simulated.away_points
  
-        line = _best_line(db, game.id)
+        line = lines.get(game.id)
         market_spread = line.spread if line else None
         market_home_ml = line.home_moneyline if line else None
         market_away_ml = line.away_moneyline if line else None
@@ -286,6 +456,6 @@ def get_weekly_odds(
             f"falling back to mock odds. Run `python -m scripts.compute_rankings --year {season} "
             f"--through-week {week - 1}` (from backend/) so ratings exist going into this week."
         )
-        return _FALLBACK_ODDS
+        return _fallback(response)
  
     return WeeklyOddsResponse(season=season, week=week, num_simulations=NUM_SIMULATIONS, games=games)

@@ -25,6 +25,9 @@ class RankingEntry(BaseModel):
     # and for any team without a logo on file.
     logo_url: str | None = None
     conference: str
+    # The conference's classification from the database ("fbs" / "fcs"). None for the
+    # hardcoded fallback rows and for teams without a conference.
+    conference_classification: str | None = None
     wins: int
     losses: int
     # Overall rating (offense + defense) -- the number the ranking sorts on.
@@ -79,6 +82,23 @@ class RecentResult(BaseModel):
     result: str  # e.g. "W 34-17"
 
 
+class ScheduleGame(BaseModel):
+    """One game on the team's season schedule, from that team's point of view."""
+
+    week: int
+    opponent: str
+    opponent_logo_url: str | None = None
+    # "away" is shown as "@"; "home" and "neutral" are shown as "vs".
+    location: Literal["home", "away", "neutral"]
+    completed: bool
+    # Only set once the game is finished: "W" / "L" / "T" and the score with this
+    # team's points first, e.g. "66-3". None for upcoming games.
+    outcome: Literal["W", "L", "T"] | None = None
+    score: str | None = None
+    # Kickoff, in UTC. None when the game has no date on file yet.
+    start_date: datetime | None = None
+
+
 class RatingPoint(BaseModel):
     week: int
     rating: float
@@ -94,6 +114,8 @@ class TeamDetailResponse(BaseModel):
     offense_rating: float | None = None
     defense_rating: float | None = None
     recent_results: list[RecentResult]
+    # Every game this season (finished and upcoming), in date order.
+    schedule: list[ScheduleGame] = []
     rating_trend: list[RatingPoint]
 
 

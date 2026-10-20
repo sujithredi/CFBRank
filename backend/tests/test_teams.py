@@ -13,6 +13,8 @@ from app.database import Base, get_db
 from app.main import app
 from app.models import Conference, Game, PowerRating, Team
 
+OHIO_LOGO = "https://cdn.collegefootballdata.com/logos/500/194.png"
+
 
 @pytest.fixture()
 def db():
@@ -53,7 +55,7 @@ def seeded(db):
     db.flush()
 
     alabama = Team(id=10, cfbd_id=333, school="Alabama", conference_id=sec.id)
-    ohio = Team(id=20, cfbd_id=194, school="Ohio State", conference_id=big_ten.id)
+    ohio = Team(id=20, cfbd_id=194, school="Ohio State", logo_url=OHIO_LOGO, conference_id=big_ten.id)
     idle = Team(id=30, cfbd_id=999, school="No Ratings U", conference_id=sec.id)
     db.add_all([alabama, ohio, idle])
     db.flush()
@@ -146,3 +148,58 @@ def test_team_detail_offense_defense_null_when_snapshot_predates_split(client, s
     body = client.get("/api/teams/20").json()  # Ohio State's only snapshot has no split
     assert body["power_score"] == 40.0
     assert body["offense_rating"] is None and body["defense_rating"] is None
+
+
+def test_schedule_lists_every_game_this_season_in_date_order(client, seeded):
+    schedule = client.get("/api/teams/10").json()["schedule"]
+
+    # Weeks 1-7 finished plus the week-8 game still to play; the 2025 game is left out.
+    assert [g["week"] for g in schedule] == [1, 2, 3, 4, 5, 6, 7, 8]
+    assert all(g["opponent"] == "Ohio State" for g in schedule)
+    assert all(g["opponent_logo_url"] == OHIO_LOGO for g in schedule)
+
+
+def test_schedule_marks_home_and_away_and_the_result(client, seeded):
+    schedule = client.get("/api/teams/10").json()["schedule"]
+    finished = schedule[:7]
+
+    # Alabama is home on odd weeks (wins 30-10) and away on even weeks (loses 17-24).
+    assert [g["location"] for g in finished] == ["home", "away"] * 3 + ["home"]
+    assert [g["outcome"] for g in finished] == ["W", "L"] * 3 + ["W"]
+    assert [g["score"] for g in finished] == ["30-10", "17-24"] * 3 + ["30-10"]
+    assert all(g["completed"] for g in finished)
+
+
+def test_upcoming_game_has_a_date_but_no_result(client, seeded):
+    upcoming = client.get("/api/teams/10").json()["schedule"][-1]
+
+    assert upcoming["completed"] is False
+    assert upcoming["outcome"] is None
+    assert upcoming["score"] is None
+    assert upcoming["location"] == "home"
+    assert upcoming["start_date"].startswith("2026-09-08T18:00:00")
+    assert upcoming["start_date"].endswith(("Z", "+00:00"))  # UTC, so the browser can localize it
+
+
+def test_schedule_is_from_the_other_teams_point_of_view(client, seeded):
+    schedule = client.get("/api/teams/20").json()["schedule"]
+
+    assert schedule[0]["opponent"] == "Alabama"
+    assert schedule[0]["location"] == "away"  # week 1: Alabama is home
+    assert (schedule[0]["outcome"], schedule[0]["score"]) == ("L", "10-30")
+
+
+def test_neutral_site_game_is_neither_home_nor_away(client, seeded, db):
+    game = _game(4000, 9, seeded["alabama"], seeded["ohio"], None, None, completed=False)
+    game.neutral_site = True
+    db.add(game)
+    db.commit()
+
+    assert client.get("/api/teams/10").json()["schedule"][-1]["location"] == "neutral"
+
+
+def test_team_with_no_games_has_an_empty_schedule(client, seeded, db):
+    db.add(PowerRating(team_id=seeded["idle"].id, season=2026, week=4, rating=-3.0, rank=99, wins=0, losses=0))
+    db.commit()
+
+    assert client.get("/api/teams/30").json()["schedule"] == []
