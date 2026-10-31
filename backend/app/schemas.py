@@ -128,6 +128,13 @@ class GameOdds(BaseModel):
     away_team: str
     home_logo_url: str | None = None
     away_logo_url: str | None = None
+    # "fbs" / "fcs" from the teams table (None when a team has none on file). The weekly
+    # odds page uses these for its All / FBS / FCS filter.
+    home_classification: str | None = None
+    away_classification: str | None = None
+    # Where the game is played; neutral-site games show "v" instead of "@" on the page.
+    venue: str | None = None
+    neutral_site: bool = False
     # The model's numbers are averages over `WeeklyOddsResponse.num_simulations` simulated games
     # (app/routers/odds.py): the points each team scores, the home team's margin (home minus away,
     # so it equals model_home_points - model_away_points) and the combined total.

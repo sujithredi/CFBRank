@@ -16,7 +16,7 @@ The field is FIELD_SIZE (12) teams (the 2026-27 rules):
        "top 12" is the network's own ordering: the twelve highest playoff
        probabilities among all eligible FBS teams. This only matters when the
        automatic bids above would otherwise crowd Notre Dame out of the
-       at-large spots.
+       at-large spots like the 2025 season.
     4. The remaining spots (seven, or six when Notre Dame took an automatic
        bid) are at-large: the network rates every other FBS team and the
        highest probabilities fill the field. That pool includes independents
@@ -29,7 +29,7 @@ The neural network
     past team-season: did the team make the playoff (`playoffs`), given its
     strength of schedule (`sos`) and its regular-season record (`wins`,
     `loses`). Its output is P(makes the playoff) for a team, and the only thing
-    that matters is how teams rank against each other -- the probabilities are
+    that matters is how teams rank against each other, the probabilities are
     not shown anywhere.
 
     The training recipe (features standardized, an 80/20 split with
@@ -76,11 +76,11 @@ LABEL_COLUMN = "playoffs"
 
 FIELD_SIZE = 12
 
-# Conference names exactly as stored in conferences.name (the keys of CONFERENCE_RULES).
+# Conference names exactly as stored in conferences.name
 AUTO_BID_CONFERENCES = ("ACC", "Big Ten", "SEC", "Big 12")
 GROUP_OF_6 = ("American Athletic", "Conference USA", "Mid-American", "Mountain West", "Sun Belt", "Pac-12")
 # Teams (by school name) that get an automatic bid if they rank in the top FIELD_SIZE.
-RANKED_AUTO_BID_TEAMS = ("Notre Dame",)
+RANKED_AUTO_BID_TEAMS = ("Notre Dame",) #so dumb
 
 
 class PlayoffModel:

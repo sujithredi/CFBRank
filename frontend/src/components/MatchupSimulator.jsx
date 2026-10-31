@@ -1,5 +1,7 @@
-import { useEffect, useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { fetchRankings, simulateMatchup } from '../api'
+import { useFetch } from '../useFetch'
+import TeamLogo from './TeamLogo'
 
 // Mirrors MAX_SIMULATED_GAMES in backend/app/schemas.py.
 const MAX_GAMES = 1000
@@ -11,26 +13,6 @@ function locationLabel(location, teamA, teamB) {
   if (location === 'team_a_home') return `${teamA || 'Team A'} home`
   if (location === 'team_b_home') return `${teamB || 'Team B'} home`
   return 'Neutral site'
-}
-
-function TeamLogo({ url }) {
-  const [failed, setFailed] = useState(false)
-
-  if (!url || failed) {
-    return <span className="team-logo placeholder" aria-hidden="true" />
-  }
-
-  return (
-    <img
-      className="team-logo"
-      src={url}
-      alt=""
-      width="28"
-      height="28"
-      loading="lazy"
-      onError={() => setFailed(true)}
-    />
-  )
 }
 
 function TeamSelect({ label, value, onChange, teams, disabledId, disabled, placeholder }) {
@@ -112,8 +94,15 @@ function GameLog({ result }) {
 
 // Pick two teams, then simulate a game between them.
 function MatchupSimulator() {
-  const [teams, setTeams] = useState([])
-  const [teamsError, setTeamsError] = useState(false)
+  const { data: rankings, error: teamsFetchError } = useFetch(fetchRankings)
+  const teams = useMemo(
+    () =>
+      rankings
+        ? rankings.rankings.filter((team) => team.team_id != null).sort((a, b) => a.team.localeCompare(b.team))
+        : [],
+    [rankings],
+  )
+  const teamsError = teamsFetchError != null
   const [teamAId, setTeamAId] = useState('')
   const [teamBId, setTeamBId] = useState('')
   const [location, setLocation] = useState('neutral')
@@ -124,26 +113,6 @@ function MatchupSimulator() {
   const [isSimulating, setIsSimulating] = useState(false)
   // Bumped whenever the picks or settings change or a new run starts, so a slow response for an old matchup can't overwrite what's on screen.
   const runId = useRef(0)
-
-  useEffect(() => {
-    let cancelled = false
-
-    fetchRankings()
-      .then((data) => {
-        if (cancelled) return
-        const selectable = data.rankings
-          .filter((team) => team.team_id != null)
-          .sort((a, b) => a.team.localeCompare(b.team))
-        setTeams(selectable)
-      })
-      .catch(() => {
-        if (!cancelled) setTeamsError(true)
-      })
-
-    return () => {
-      cancelled = true
-    }
-  }, [])
 
   // Changing any input invalidates what's on screen, so clear it (and ignore any in-flight response).
   function resetOnChange(setter) {

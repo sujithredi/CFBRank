@@ -1,29 +1,9 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Link, useLocation, useParams } from 'react-router'
 import { fetchRankings } from '../api'
 import TeamDetails from '../components/TeamDetails'
-
-// Logo slot for the team list. Falls back to an empty placeholder of the same
-// size so team names stay aligned when a logo is missing or fails to load.
-function TeamLogo({ url }) {
-  const [failed, setFailed] = useState(false)
-
-  if (!url || failed) {
-    return <span className="team-tile-logo placeholder" aria-hidden="true" />
-  }
-
-  return (
-    <img
-      className="team-tile-logo"
-      src={url}
-      alt=""
-      width="48"
-      height="48"
-      loading="lazy"
-      onError={() => setFailed(true)}
-    />
-  )
-}
+import TeamLogo from '../components/TeamLogo'
+import { useFetch } from '../useFetch'
 
 // FBS conferences first, then FCS, each alphabetical. Anything without a known
 // classification (e.g. teams with no conference) goes last.
@@ -47,29 +27,15 @@ function TeamDetailsPage() {
   const location = useLocation()
   // Set by the rankings table when a team is clicked, so going back keeps the sort.
   const rankingsSearch = location.state?.rankingsSearch ?? ''
-  const [teams, setTeams] = useState([])
-  const [teamsError, setTeamsError] = useState(false)
   const [conferenceFilter, setConferenceFilter] = useState('all')
 
-  useEffect(() => {
-    // The team list is only needed on the /team overview.
-    if (teamId) return undefined
-
-    let cancelled = false
-
-    fetchRankings()
-      .then((result) => {
-        if (cancelled) return
-        setTeams(result.rankings.filter((team) => team.team_id != null))
-      })
-      .catch(() => {
-        if (!cancelled) setTeamsError(true)
-      })
-
-    return () => {
-      cancelled = true
-    }
-  }, [teamId])
+  // The team list is only needed on the /team overview, so no request is made on a team's page.
+  const { data: rankings, error: teamsFetchError } = useFetch(teamId ? null : fetchRankings)
+  const teams = useMemo(
+    () => (rankings ? rankings.rankings.filter((team) => team.team_id != null) : []),
+    [rankings],
+  )
+  const teamsError = teamsFetchError != null
 
   // [{ conference, classification, teams: [...] }, ...] in display order, teams alphabetized.
   const groups = useMemo(() => {
@@ -148,7 +114,7 @@ function TeamDetailsPage() {
               {group.teams.map((team) => (
                 <li key={team.team_id}>
                   <Link to={`/team/${team.team_id}`} className="team-tile">
-                    <TeamLogo url={team.logo_url} />
+                    <TeamLogo url={team.logo_url} variant="tile" />
                     <span className="team-tile-name">{team.team}</span>
                   </Link>
                 </li>

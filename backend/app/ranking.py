@@ -1,8 +1,7 @@
 """
 Power-rating model: separate offense and defense ratings, plus an overall.
 
-Every game contributes two rows -- one from each team's point of view --
-and we regress the points a team scored on who was on offense, who was on
+Every game contributes two rows one from each team's point of view and we regress the points a team scored on who was on offense, who was on
 defense, and where the game was played:
 
     team_score ~ Location + offense[team] + defense_coef[opponent]
@@ -40,10 +39,7 @@ Input
     opponent_score  -- opponent's points
     Location        -- 1 if `team` was at home, -1 if `team` was away, 0 if neutral site
 
-Only ONE row per game is expected here (not already mirrored) -- e.g. for
-a CFBD game, put the home team in `team` and use Location=1 (or 0 for a
-neutral site). `compute_power_ratings` generates the opponent's-eye-view
-row itself.
+Only ONE row per game is expected here (not already mirrored)
 """
 
 from __future__ import annotations
@@ -164,24 +160,16 @@ def expected_margin(
     """
     return (home_rating - away_rating) + home_field_advantage
 
+# Dead function from earlier verisons
 def win_probability_from_margin(margin: float) -> float:
-    """
-    Logistic squash of an expected point margin into a win probability in
-    (0, 1). See `predict_win_probability` for how the default `scale` was
-    chosen and what it implies at a few sample margins.
-    """
     return 1.0 / (1.0 + math.exp(-((margin * 0.1533) + 0.0533)))
 
+# Dead function from earlier verisons
 def predict_win_probability(
     home_rating: float,
     away_rating: float,
     home_field_advantage: float = DEFAULT_HOME_FIELD_ADVANTAGE,
     scale: float = DEFAULT_MARGIN_SCALE,
 ) -> float:
-    """
-    Turn a matchup between two power ratings into a home-team win
-    probability (US-03: "the model's win probability" for the weekly odds
-    view). Equivalent to `win_probability_from_margin(expected_margin(...))`
-    """
     margin = expected_margin(home_rating, away_rating, home_field_advantage)
     return win_probability_from_margin(margin)

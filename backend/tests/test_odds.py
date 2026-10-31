@@ -475,3 +475,45 @@ def test_the_placeholder_rows_for_an_empty_database_are_never_cached(client):
     response = client.get("/api/odds/weekly")
     assert response.status_code == 200
     assert response.headers["Cache-Control"] == "no-store"
+
+
+# ---- fields the weekly odds page groups and filters on -----------------------
+
+
+def test_each_game_reports_both_teams_classification(client, seeded):
+    game = _games(client)["games"][0]
+    assert game["home_classification"] == "fbs"
+    assert game["away_classification"] == "fbs"
+
+
+def test_an_fbs_team_hosting_an_fcs_team_reports_both_classifications(client, db):
+    db.add_all([
+        Team(id=10, cfbd_id=1, school="Alabama", classification="fbs"),
+        Team(id=20, cfbd_id=2, school="Samford", classification="fcs"),
+    ])
+    db.flush()
+    db.add_all([
+        PowerRating(team_id=10, season=2026, week=6, rating=15, rank=1, offense_rating=9.0, defense_rating=6.0),
+        PowerRating(team_id=20, season=2026, week=6, rating=-4, rank=2, offense_rating=-2.0, defense_rating=-2.0),
+    ])
+    db.add(Game(cfbd_id=3, season=2026, week=8, season_type="regular", completed=False,
+                start_date=datetime(2026, 10, 24, 19, 0), home_team_id=10, away_team_id=20))
+    db.commit()
+
+    game = _games(client)["games"][0]
+    assert (game["home_classification"], game["away_classification"]) == ("fbs", "fcs")
+
+
+def test_each_game_reports_its_venue_and_whether_it_is_at_a_neutral_site(client, db, seeded):
+    db.query(Game).update({"venue": "Gillette Stadium", "neutral_site": True})
+    db.commit()
+
+    game = _games(client)["games"][0]
+    assert game["venue"] == "Gillette Stadium"
+    assert game["neutral_site"] is True
+
+
+def test_a_game_with_no_venue_on_file_still_loads(client, seeded):
+    game = _games(client)["games"][0]
+    assert game["venue"] is None
+    assert game["neutral_site"] is False

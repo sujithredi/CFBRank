@@ -1,34 +1,13 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { Link, useLocation, useSearchParams } from 'react-router'
 import { fetchRankings } from '../api'
 import { formatPercent, formatProjectedRecord, formatRating } from '../format'
 import { SORT_COLUMNS, sortRankings } from '../sortRankings'
-
-// Team logo with a fixed-size slot
-function TeamLogo({ url }) {
-  const [failed, setFailed] = useState(false)
-
-  if (!url || failed) {
-    return <span className="team-logo placeholder" aria-hidden="true" />
-  }
-
-  return (
-    <img
-      className="team-logo"
-      src={url}
-      alt=""
-      width="28"
-      height="28"
-      loading="lazy"
-      onError={() => setFailed(true)}
-    />
-  )
-}
+import { useFetch } from '../useFetch'
+import TeamLogo from './TeamLogo'
 
 function RankingsTable() {
-  const [data, setData] = useState(null)
-  const [error, setError] = useState(null)
-  const [isLoading, setIsLoading] = useState(true)
+  const { data, error, isLoading } = useFetch(fetchRankings)
 
   // The sort lives in the URL (?sort=offense_rating&dir=asc) rather than in
   // component state, so going to a team's page and pressing Back returns to the
@@ -38,28 +17,6 @@ function RankingsTable() {
   const requestedSort = searchParams.get('sort')
   const sortKey = SORT_COLUMNS.some(({ key }) => key === requestedSort) ? requestedSort : 'power_score'
   const sortDirection = searchParams.get('dir') === 'asc' ? 'asc' : 'desc'
-
-  useEffect(() => {
-    let cancelled = false
-
-    setIsLoading(true)
-    setError(null)
-
-    fetchRankings()
-      .then((result) => {
-        if (!cancelled) setData(result)
-      })
-      .catch((err) => {
-        if (!cancelled) setError(err.message)
-      })
-      .finally(() => {
-        if (!cancelled) setIsLoading(false)
-      })
-
-    return () => {
-      cancelled = true
-    }
-  }, [])
 
   const rows = useMemo(
     () => (data ? sortRankings(data.rankings, sortKey, sortDirection) : []),

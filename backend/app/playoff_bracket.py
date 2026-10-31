@@ -1,10 +1,7 @@
 """
 College Football Playoff bracket: seeding the field and playing the games.
 
-app/playoff.py decides *who* is in the field. This module takes those teams and
-plays the bracket out, one simulated game at a time, with app.simulation.simulate_game.
-
-Format (the 2026-27 CFP, 12 teams)
+Format 2026-27 CFP, 12 teams
     * The field is seeded 1-12 straight down the ranking. The four best seeds get a
       first-round bye, whether or not they won their conference.
     * Round 1 is 5v12, 6v11, 7v10 and 8v9, on the higher seed's campus.
@@ -12,29 +9,18 @@ Format (the 2026-27 CFP, 12 teams)
       3 vs the 6/11 winner. Semifinals: the 1 and 4 quarterfinal winners meet, as do the
       2 and 3 winners. Then the final. All of these are at neutral sites.
     * There is no re-seeding after a round, and the bracket is never adjusted to avoid
-      rematches or same-conference games.
-
-The bracket is data (TWELVE_TEAM_BRACKET), not code: each game names what fills its
-two slots, either "seed n" or "the winner of game g". A different format (14 or 16
-teams, other byes) is another tuple of BracketGame, and nothing else here changes.
+      rematches or same-conference games just as the real playoffs.
 
 Seeding
-    The CFP committee's ranking isn't something this project has, so `seed_field` orders
-    the twelve teams by overall rating (offense + defense) as it stands after the last
+    `seed_field` orders the twelve teams by overall rating (offense + defense) as it stands after the last
     simulated week -- the same ratings the playoff games are played with. The network in
     playoff.py is not used for this: it answers "does this team make the field?", so it
-    rates every strong team near 1 and can't order the top of the bracket. If you later get
-    committee rankings, replace `seed_field`; `simulate_bracket` takes the seeds as given.
+    rates every strong team near 1 and can't order the top of the bracket.
 
-Assumptions
+Notes
     * Ratings are not re-fit between playoff rounds, the same way a conference title game
       doesn't feed back into the ratings.
-    * The home team in round 1 gets app.ranking.DEFAULT_HOME_FIELD_ADVANTAGE, the same
-      margin as every other home game in the simulation. Every other round is neutral.
-    * Football has no ties; simulate_game sends a tied score to overtime.
-    * A field with fewer teams than the bracket has seeds is still played: an empty seed
-      slot is a walkover for its opponent (a team with no opponent just advances). The real
-      field is always full, so this only matters for tiny test leagues.
+    * The home team in round 1 gets app.ranking.DEFAULT_HOME_FIELD_ADVANTAGE. Every other round is neutral.
 """
 
 from __future__ import annotations
@@ -51,25 +37,15 @@ QUARTERFINAL = 2
 SEMIFINAL = 3
 FINAL = 4
 
-ROUND_NAMES = {
-    FIRST_ROUND: "First round",
-    QUARTERFINAL: "Quarterfinal",
-    SEMIFINAL: "Semifinal",
-    FINAL: "National championship",
-}
-
-
 @dataclass(frozen=True)
 class Seed:
     """A bracket slot filled by the team with this seed (1 = best)."""
-
     number: int
 
 
 @dataclass(frozen=True)
 class Winner:
     """A bracket slot filled by whoever wins the game with this id."""
-
     game: str
 
 

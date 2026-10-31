@@ -1,27 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useCallback } from 'react'
 import { fetchTeamDetail } from '../api'
 import { formatRating } from '../format'
-
-// Opponent logo with a fixed-size slot so names stay aligned when a logo is missing.
-function TeamLogo({ url }) {
-  const [failed, setFailed] = useState(false)
-
-  if (!url || failed) {
-    return <span className="team-logo placeholder" aria-hidden="true" />
-  }
-
-  return (
-    <img
-      className="team-logo"
-      src={url}
-      alt=""
-      width="28"
-      height="28"
-      loading="lazy"
-      onError={() => setFailed(true)}
-    />
-  )
-}
+import { useFetch } from '../useFetch'
+import TeamLogo from './TeamLogo'
 
 // Upcoming games only show the date, e.g. "10/24", in the viewer's timezone.
 function formatGameDate(isoDate) {
@@ -50,38 +31,9 @@ function ScheduleRow({ game }) {
 }
 
 function TeamDetails({ teamId = null }) {
-  const [data, setData] = useState(null)
-  const [error, setError] = useState(null)
-  const [isLoading, setIsLoading] = useState(true)
-
-  useEffect(() => {
-    if (!teamId) {
-      setData(null)
-      setError(null)
-      setIsLoading(false)
-      return undefined
-    }
-
-    let cancelled = false
-
-    setIsLoading(true)
-    setError(null)
-
-    fetchTeamDetail(teamId)
-      .then((result) => {
-        if (!cancelled) setData(result)
-      })
-      .catch((err) => {
-        if (!cancelled) setError(err.message)
-      })
-      .finally(() => {
-        if (!cancelled) setIsLoading(false)
-      })
-
-    return () => {
-      cancelled = true
-    }
-  }, [teamId])
+  // A new function per team id, so useFetch reloads when the id changes. No id, no request.
+  const loadTeam = useCallback(() => fetchTeamDetail(teamId), [teamId])
+  const { data, error, isLoading } = useFetch(teamId ? loadTeam : null)
 
   if (isLoading) {
     return <p className="status-copy">Loading team profile...</p>

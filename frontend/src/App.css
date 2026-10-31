@@ -812,3 +812,129 @@ a.team-link:hover {
     padding: 12px 14px;
   }
 }
+
+/* ---- Weekly odds: disclaimer, filter, day groups ---- */
+
+.odds-disclaimer {
+  margin: 0 0 14px;
+  padding: 10px 14px;
+  max-width: 90ch;
+  border-left: 4px solid #d97706;
+  border-radius: 6px;
+  background: #fffbeb;
+  color: #78350f;
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.odds-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+  margin-bottom: 6px;
+}
+
+.odds-toolbar .meta-row {
+  margin: 0;
+}
+
+.filter-group {
+  display: inline-flex;
+  border: 1px solid #cbd5e1;
+  border-radius: 999px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.filter-button {
+  appearance: none;
+  border: none;
+  background: transparent;
+  padding: 0.5rem 0.95rem;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.filter-button + .filter-button {
+  border-left: 1px solid #cbd5e1;
+}
+
+.filter-button:hover {
+  background: #eff6ff;
+}
+
+.filter-button.active {
+  background: #1d4ed8;
+  color: #fff;
+}
+
+.filter-button:focus-visible {
+  outline: 2px solid #1d4ed8;
+  outline-offset: -3px;
+}
+
+.filter-button.active:focus-visible {
+  outline-color: #fff;
+}
+
+.filter-count {
+  margin-left: 4px;
+  font-weight: 500;
+  opacity: 0.7;
+}
+
+.odds-day {
+  margin-top: 22px;
+}
+
+.odds-day-heading {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+}
+
+.odds-table {
+  min-width: 1100px;
+}
+
+.matchup {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.matchup-sep {
+  color: #64748b;
+  font-weight: 500;
+}
+
+.odds-time,
+.odds-location {
+  white-space: nowrap;
+}
+
+.odds-location {
+  color: #475569;
+  font-size: 0.86rem;
+}
+
+@media (max-width: 640px) {
+  .filter-group {
+    width: 100%;
+  }
+
+  .filter-button {
+    flex: 1;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}
