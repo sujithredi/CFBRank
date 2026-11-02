@@ -7,16 +7,22 @@ GET /api/rankings serves. The request picks where the game is played
 (`location`: neutral site, team A at home, or team B at home) and how many
 games to simulate (`num_games`). Every game is an independent random draw, so
 calling it again gives new games. The method lives in app/simulation.py.
+
+Each request can simulate up to MAX_SIMULATED_GAMES games and nothing is cached, so the
+route has its own per-client rate limit (MATCHUP_RATE_LIMIT_PER_MINUTE, see below). It is a
+backstop; a reverse proxy / CDN should rate-limit too (see app/ratelimit.py and docs/SETUP.md).
 """
 
+import os
 import random
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models import PowerRating, Team
 from app.ranking import DEFAULT_HOME_FIELD_ADVANTAGE
+from app.ratelimit import RateLimiter, enforce
 from app.schemas import (
     MatchupGame,
     MatchupLocation,
@@ -28,6 +34,30 @@ from app.schemas import (
 from app.simulation import load_sorted_scores, simulate_game
 
 router = APIRouter(prefix="/api/matchup", tags=["matchup"])
+
+
+def _env_int(name: str, default: int) -> int:
+    """An int from the environment; a missing or malformed value falls back to `default`."""
+    try:
+        return int(os.getenv(name, default))
+    except ValueError:
+        return default
+
+
+# Per-client limit on POST /simulate, per minute (0 turns it off). A request can run up to
+# 1,000 simulated games, so this is stricter than the weekly-odds limit. It has its own
+# limiter, so hitting one endpoint's limit never uses up the other's budget.
+MATCHUP_RATE_LIMIT_PER_MINUTE = _env_int("MATCHUP_RATE_LIMIT_PER_MINUTE", 30)
+_matchup_limiter = RateLimiter(max_requests=MATCHUP_RATE_LIMIT_PER_MINUTE, window_seconds=60)
+
+
+def _enforce_rate_limit(request: Request) -> None:
+    enforce(_matchup_limiter, request)
+
+
+def reset_rate_limiter() -> None:
+    """Forget every client's request history (used by tests)."""
+    _matchup_limiter.reset()
 
 
 def _load_rating(db: Session, team_id: int, season: int, week: int):
@@ -67,7 +97,11 @@ def _home_field_advantage(location: MatchupLocation) -> float:
     return 0.0
 
 
-@router.post("/simulate", response_model=MatchupSimulationResponse)
+@router.post(
+    "/simulate",
+    response_model=MatchupSimulationResponse,
+    dependencies=[Depends(_enforce_rate_limit)],
+)
 def simulate_matchup(request: MatchupRequest, db: Session = Depends(get_db)):
     if request.team_a_id == request.team_b_id:
         raise HTTPException(status_code=422, detail="Pick two different teams")

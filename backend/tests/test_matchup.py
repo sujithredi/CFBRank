@@ -15,6 +15,8 @@ from app.database import Base, get_db
 from app.main import app
 from app.models import Conference, PowerRating, Team
 from app.ranking import DEFAULT_HOME_FIELD_ADVANTAGE
+from app.ratelimit import RateLimiter
+from app.routers import matchup
 from app.schemas import MAX_SIMULATED_GAMES
 from app.simulation import (
     LEAGUE_AVG_POINTS,
@@ -126,7 +128,10 @@ def db():
 
 
 @pytest.fixture()
-def client(db):
+def client(db, monkeypatch):
+    # Several tests below send dozens of requests, so the rate limit is off here; the
+    # rate-limit tests at the bottom install their own limiter.
+    monkeypatch.setattr(matchup, "_matchup_limiter", RateLimiter(max_requests=0))
     app.dependency_overrides[get_db] = lambda: db
     yield TestClient(app)  # no `with`: skips the lifespan, so the real DB is never touched
     app.dependency_overrides.clear()
@@ -304,3 +309,47 @@ def test_the_maximum_number_of_games_is_allowed(client, seeded):
 ])
 def test_bad_location_or_game_count_is_422(client, seeded, options):
     assert _post(client, 10, 20, **options).status_code == 422
+
+
+# ---- rate limit ------------------------------------------------------------
+
+def test_a_client_over_the_limit_gets_429_with_retry_after(client, seeded, monkeypatch):
+    monkeypatch.setattr(matchup, "_matchup_limiter", RateLimiter(max_requests=3, window_seconds=60))
+
+    assert [_post(client, 10, 20).status_code for _ in range(3)] == [200, 200, 200]
+
+    blocked = _post(client, 10, 20)
+    assert blocked.status_code == 429
+    assert 1 <= int(blocked.headers["Retry-After"]) <= 60
+    assert "detail" in blocked.json()
+
+    # Only this endpoint is limited.
+    assert client.get("/health").status_code == 200
+    assert client.get("/api/rankings").status_code == 200
+
+
+def test_the_matchup_limit_does_not_use_up_the_odds_limit(client, seeded, monkeypatch):
+    from app.routers import odds
+
+    monkeypatch.setattr(matchup, "_matchup_limiter", RateLimiter(max_requests=1, window_seconds=60))
+    monkeypatch.setattr(odds, "_odds_limiter", RateLimiter(max_requests=1, window_seconds=60))
+
+    assert _post(client, 10, 20).status_code == 200
+    assert _post(client, 10, 20).status_code == 429
+    assert client.get("/api/odds/weekly").status_code == 200
+
+
+def test_a_limit_of_zero_turns_the_matchup_rate_limit_off(client, seeded):
+    assert all(_post(client, 10, 20).status_code == 200 for _ in range(40))
+
+
+def test_the_default_limit_is_on_and_caps_simulated_games_per_minute():
+    assert matchup.MATCHUP_RATE_LIMIT_PER_MINUTE > 0
+    assert MAX_SIMULATED_GAMES * matchup.MATCHUP_RATE_LIMIT_PER_MINUTE <= 60_000
+
+
+def test_a_malformed_env_value_falls_back_to_the_default(monkeypatch):
+    monkeypatch.setenv("MATCHUP_RATE_LIMIT_PER_MINUTE", "lots")
+    assert matchup._env_int("MATCHUP_RATE_LIMIT_PER_MINUTE", 30) == 30
+    monkeypatch.setenv("MATCHUP_RATE_LIMIT_PER_MINUTE", "12")
+    assert matchup._env_int("MATCHUP_RATE_LIMIT_PER_MINUTE", 30) == 12

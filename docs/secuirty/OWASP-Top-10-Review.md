@@ -1,0 +1,25 @@
+# CFBRank — OWASP Top 10 Review
+ 
+**Date:** 2026-11-02
+**Method:** Manual code review, git-history inspection, targeted grep for risky patterns. No code was changed.
+ 
+## Summary
+ 
+The most serious finding is that the real CollegeFootballData (CFBD) API key was committed to git history. The remaining items are hardening gaps: no rate limit on the matchup endpoint, CORS and security-header configuration that is not production-ready, and no dependency or logging tooling.
+ 
+CFBRank has no user accounts, sessions or write endpoints, so several categories (access control, authentication) are largely not applicable.
+ 
+## Findings
+ 
+| # | Category | Status in CFBRank | Action |
+| --- | --- | --- | --- |
+| A01 | Broken Access Control | No accounts, sessions or user-owned data. Every route is a public read (`/api/rankings`, `/api/teams/{id}`, `/api/odds/weekly`), plus the public `POST /api/matchup/simulate`, which only runs a simulation and saves nothing. Path and body IDs are bounded (`ge=1, le=MAX_TEAM_ID`). Nothing for an access check to protect. | No action needed, verified only |
+| A02 | Cryptographic Failures | **Found:** the real `CFBD_API_KEY` (64 characters) is in git history. It was in `backend/.env.example` at commits `579ac91` and `eabca17`, and it exactly matches the key in the current `backend/.env`. The remote is `github.com/sujithredi/CFBRank`. The values were compared without being printed. There are no passwords or tokens to hash. The frontend defaults to plain `http://127.0.0.1:8000`, which is fine locally but needs HTTPS in production. | **Rotate the CFBD key now.** Replace `.env.example` with a placeholder, and set `VITE_API_BASE_URL` to an HTTPS URL in production. Optionally scrub history with `git filter-repo`, but rotation is what actually fixes it. |
+| A03 | Injection | SQLAlchemy ORM queries are parameterized. The one raw `text()` call is in `database.py` `_add_missing_columns`. It uses identifiers from the app's own model metadata, quoted by the dialect, never request input. `season_type` is a free string but only goes into ORM filters. The only `dangerouslySetInnerHTML` is KaTeX output, and the source strings are written in the repo. | No action needed, verified only |
+| A04 | Insecure Design | `/api/matchup/simulate` has no rate limit, unlike `/api/odds/weekly` (60 per minute per client). Each call can run up to 1,000 simulated games, which is CPU-heavy. `/api/rankings` and `/api/teams/{id}` are also unthrottled. | Reuse `RateLimiter`/`enforce` on the matchup route. Consider lowering `MAX_SIMULATED_GAMES`, and add proxy or CDN limits. |
+| A05 | Security Misconfiguration | **Found:** CORS allows only `localhost:5173` and `127.0.0.1:5173`, so a deployed frontend would be blocked or get patched with a wildcard. `allow_methods=["*"]` and `allow_headers=["*"]` are broader than needed. There are no security headers (CSP, `X-Content-Type-Options`, `Referrer-Policy`). `/docs` and `/openapi.json` are open. Setup docs use `--reload`. No `debug=True` was found, so stack traces are not returned to clients. | Read allowed origins from an env var and limit methods to `GET` and `POST`. Add a security-headers middleware or proxy config, and disable the docs in production. |
+| A06 | Vulnerable/Outdated Components | Python deps are pinned in `requirements.txt` and npm has a lockfile. There is no Dependabot config and no audit step in CI. `npm audit` and `pip-audit` could not be run because the review sandbox cannot reach the registries. | Run `npm audit` and `pip-audit -r backend/requirements.txt` locally, and add `.github/dependabot.yml` (pip, npm, github-actions). |
+| A07 | Authentication Failures | No authentication exists, by design. The in-process rate limiter is solid: bounded memory, ignores `X-Forwarded-For` on purpose, and returns 429 with `Retry-After`. | No action needed. |
+| A08 | Software/Data Integrity | GitHub Actions are pinned to tags (`checkout@v4`, `setup-python@v5`), not commit SHAs. The binary `cfbrank.db` is committed. The refresh workflow rewrites it from CFBD data and opens a PR, which does give human review. Pip installs have no hash checking. | Pin actions to SHAs, review the DB PRs carefully, and consider `pip install --require-hashes`. |
+| A09 | Logging/Monitoring Failures | The app logs only with `print()` (a few `[odds]` diagnostics). It writes no structured logs and no logs for rate-limit rejections (429s) or validation errors. `/health` is minimal and does not leak the key. | Switch to the `logging` module and log 429s and unexpected errors with the client IP. Add uvicorn access logs and basic alerting in production. |
+| A10 | SSRF | Not applicable. The only outbound calls are `requests.get` in `ingest_games.py` and `ingest_lines.py`, to fixed CFBD URLs with a 30-second timeout. No endpoint fetches a user-supplied URL. Team logos are plain `<img src>` from repo-controlled data. | No action needed |
