@@ -1,0 +1,38 @@
+# Render Blueprint for CFB Rank. Put this file at the repo root.
+# Render dashboard -> New -> Blueprint -> pick the repo.
+
+services:
+  # ---- FastAPI backend ----
+  - type: web
+    name: cfbrank-api
+    runtime: python
+    rootDir: backend
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    # --proxy-headers lets the rate limiter see real client IPs behind Render's proxy
+    # (otherwise every visitor shares one bucket). Render is the only way in, so "*" is OK.
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT --proxy-headers --forwarded-allow-ips="*"
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.8
+      # Comma-separated list, e.g. https://cfbrank-web.onrender.com
+      - key: CORS_ORIGINS
+        sync: false
+      # Only needed if you run the ingest scripts on Render; the API itself doesn't call CFBD.
+      - key: CFBD_API_KEY
+        sync: false
+
+  # ---- React/Vite frontend (static site) ----
+  - type: web
+    name: cfbrank-web
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      # Public URL of the API service, e.g. https://cfbrank-api.onrender.com (no trailing slash)
+      - key: VITE_API_BASE_URL
+        sync: false

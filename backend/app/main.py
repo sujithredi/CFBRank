@@ -20,15 +20,12 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="CFB Rank API", version="0.1.0", lifespan=lifespan)
 
-# Allow the Vite dev server (and any other localhost port during dev) to call the API.
+origins = [o.strip() for o in os.getenv("CORS_ORIGINS", "").split(",") if o.strip()]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-    ],
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173", *origins],
+    allow_methods=["GET", "POST"],
+    allow_headers=["Content-Type"],
 )
 
 app.include_router(rankings.router)
