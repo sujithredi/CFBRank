@@ -1,0 +1,12 @@
+# Secrets: never bake these into an image layer.
+.env
+*.env
+!.env.example
+
+# Local environments and caches
+venv/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.coverage

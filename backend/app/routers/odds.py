@@ -44,6 +44,7 @@ from datetime import datetime, timezone
 from typing import NamedTuple
  
 from fastapi import APIRouter, Depends, Request, Response
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session, aliased
  
 from app.database import get_db
@@ -163,35 +164,50 @@ def _resolve_season_week(
     return season if season is not None else next_game[0], week if week is not None else next_game[1]
  
  
-def _snapshot_order(rating: PowerRating) -> tuple:
-    """Sort key for 'which snapshot is the latest': the later week, then the later computed_at."""
-    return (rating.week, rating.computed_at or datetime.min)
+class RatingSnapshot(NamedTuple):
+    """The slice of a PowerRating row the simulator needs (what _latest_ratings returns)."""
+
+    team_id: int
+    offense_rating: float | None
+    defense_rating: float | None
 
 
-def _latest_ratings(db: Session, team_ids: set[int], season: int, through_week: int) -> dict[int, PowerRating]:
+# Anything with offense_rating / defense_rating: a RatingSnapshot, or a full PowerRating row.
+RatingLike = PowerRating | RatingSnapshot
+
+
+def _latest_ratings(db: Session, team_ids: set[int], season: int, through_week: int) -> dict[int, RatingSnapshot]:
     """
     Each team's most recent PowerRating snapshot at or before `through_week`, keyed by team id.
 
-    One query for every team in the week. This used to be one query per team per game, which
-    turned a single request for a full week into hundreds of database round trips.
+    The newest week per team is found in SQL (MAX(week) ... GROUP BY team_id) and only the three
+    columns the simulator uses are read. This used to load every weekly snapshot for every team
+    as full ORM objects and pick the newest in Python, which cost more with each week of the season.
+
+    (team_id, season, week) is unique, so each team has at most one row per week and the newest
+    week identifies exactly one row.
     """
     if not team_ids:
         return {}
-    rows = (
-        db.query(PowerRating)
-        .filter(
+    newest_week = (
+        select(PowerRating.team_id.label("team_id"), func.max(PowerRating.week).label("week"))
+        .where(
             PowerRating.team_id.in_(team_ids),
             PowerRating.season == season,
             PowerRating.week <= through_week,
         )
-        .all()
+        .group_by(PowerRating.team_id)
+        .subquery()
     )
-    latest: dict[int, PowerRating] = {}
-    for row in rows:
-        best = latest.get(row.team_id)
-        if best is None or _snapshot_order(row) > _snapshot_order(best):
-            latest[row.team_id] = row
-    return latest
+    rows = db.execute(
+        select(PowerRating.team_id, PowerRating.offense_rating, PowerRating.defense_rating)
+        .join(
+            newest_week,
+            (PowerRating.team_id == newest_week.c.team_id) & (PowerRating.week == newest_week.c.week),
+        )
+        .where(PowerRating.season == season)
+    ).all()
+    return {row.team_id: RatingSnapshot(row.team_id, row.offense_rating, row.defense_rating) for row in rows}
 
 
 def _best_lines(db: Session, game_ids: list[int]) -> dict[int, Line]:
@@ -238,8 +254,8 @@ class SimulatedGame(NamedTuple):
 
 
 def simulate_matchup(
-    home: PowerRating,
-    away: PowerRating,
+    home: RatingLike,
+    away: RatingLike,
     neutral_site: bool,
     seed: int,
     sorted_scores,
@@ -297,7 +313,7 @@ def clear_simulation_cache() -> None:
 
 
 def _simulation_key(
-    home: PowerRating, away: PowerRating, neutral_site: bool, seed: int, num_simulations: int
+    home: RatingLike, away: RatingLike, neutral_site: bool, seed: int, num_simulations: int
 ) -> tuple:
     return (
         seed,
@@ -319,8 +335,8 @@ def _cache_get(key: tuple) -> SimulatedGame | None:
 
 
 def cached_simulate_matchup(
-    home: PowerRating,
-    away: PowerRating,
+    home: RatingLike,
+    away: RatingLike,
     neutral_site: bool,
     seed: int,
     sorted_scores,

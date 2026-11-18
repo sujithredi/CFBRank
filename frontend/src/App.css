@@ -74,14 +74,100 @@ table {
   border-left: 1px solid #d9dde2;
 }
 
-/* Twelve columns (rank, team, conference, record, 3 ratings, 5 projections). */
+/* ---- Rankings table ----
+   Eighteen columns (rank, team, conference, record, then the 14 stat columns),
+   so the table scrolls inside .rankings-scroll in both directions. The header row
+   and the Rank/Team columns are pinned (position: sticky), and the row and column
+   under the pointer are highlighted, so you can always tell which team and which
+   stat a number belongs to. */
+
+.rankings-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin-bottom: 4px;
+}
+
+.rankings-toolbar .meta-row {
+  margin: 0;
+}
+
+.filter-summary {
+  margin-bottom: 10px;
+}
+
+.rankings-conference {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.rankings-conference select {
+  max-width: 100%;
+  padding: 0.45rem 0.8rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  background: #fff;
+  font-size: 0.86rem;
+  font-weight: 500;
+  color: #0f172a;
+  cursor: pointer;
+}
+
+.rankings-conference select:hover {
+  background: #eff6ff;
+}
+
+.rankings-conference select:focus-visible {
+  outline: 2px solid #1d4ed8;
+  outline-offset: 2px;
+}
+
+.rankings-scroll {
+  /* The box is shorter than the full table on purpose: that's what lets the
+     header row stay pinned while the rows scroll. */
+  max-height: max(360px, 78vh);
+  max-height: max(360px, 78dvh);
+  overflow: auto;
+  border: 1px solid #d9dde2;
+  border-radius: 12px;
+  background: #fff;
+}
+
 .rankings-table {
   min-width: 1060px;
+  /* `separate` (not `collapse`) so borders travel with the pinned cells. */
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 0;
+  --col-tint: rgba(59, 130, 246, 0.11);
+  --row-bg: #fff;
+  --row-bg-alt: #f6f9fe;
+  --row-bg-hover: #e1ecff;
 }
 
 .rankings-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
   padding-left: 8px;
   padding-right: 8px;
+  background-color: #eef3fb;
+  border-bottom: 2px solid #b8c2d4;
+}
+
+/* The column the table is sorted by. */
+.rankings-table thead th.sorted-col {
+  border-bottom-color: #1d4ed8;
+}
+
+.rankings-table tbody td.sorted-col {
+  font-weight: 700;
 }
 
 /* Keep the short headers on one line; the long ones (Title Game %) may wrap. */
@@ -89,9 +175,142 @@ table {
   white-space: nowrap;
 }
 
-/* Numbers (ratings, "10.4-1.6", "95.0%") must never break across lines. */
+/* Numbers (ratings, "10.4-1.6", "95.0%") must never break across lines, and sit
+   centered under their (centered) headers. */
 .rankings-table tbody td:nth-child(n + 4) {
   white-space: nowrap;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Conference: left-aligned under a left-aligned header. */
+.rankings-table thead th:nth-child(3),
+.rankings-table tbody td:nth-child(3) {
+  text-align: left;
+  white-space: nowrap;
+}
+
+/* Rows. Backgrounds are opaque (zebra stripes) because the pinned cells have to
+   hide whatever scrolls underneath them. Cells inherit their row's colour. */
+.rankings-table tbody tr {
+  background: var(--row-bg);
+}
+
+.rankings-table tbody tr:nth-child(even) {
+  background: var(--row-bg-alt);
+}
+
+.rankings-table tbody tr:hover,
+.rankings-table tbody tr:focus-within {
+  background: var(--row-bg-hover);
+}
+
+.rankings-table tbody td,
+.rankings-table tbody th {
+  background-color: inherit;
+}
+
+.rankings-table tbody th.col-team {
+  padding: 10px 8px;
+  border-bottom: 1px solid #d9dde2;
+  text-align: left;
+  font-weight: 400;
+  vertical-align: middle;
+}
+
+/* Pinned Rank and Team columns. */
+.rankings-table .col-rank,
+.rankings-table .col-team {
+  position: sticky;
+  z-index: 1;
+}
+
+.rankings-table thead .col-rank,
+.rankings-table thead .col-team {
+  z-index: 3; /* the top-left corner stays above both the rows and the header */
+}
+
+.rankings-table .col-rank {
+  left: 0;
+  width: 56px;
+  min-width: 56px;
+  max-width: 56px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.rankings-table .col-team {
+  left: 56px;
+  min-width: 200px;
+  /* A divider plus a soft shadow, so it reads as floating over the columns that
+     scroll beneath it. */
+  box-shadow: 1px 0 0 #b8c2d4, 8px 0 10px -8px rgba(15, 23, 42, 0.3);
+}
+
+.rankings-table thead .col-team {
+  text-align: left;
+}
+
+/* Column highlight: JS sets data-hover-col="N" on the table to the 1-based index of
+   the column under the pointer (Conference onward). The tint is a background
+   *image*, so it layers over the row colour instead of replacing it, and where the
+   hovered row and column cross the cell reads darkest. */
+.rankings-table[data-hover-col="3"] :is(th, td):nth-child(3),
+.rankings-table[data-hover-col="4"] :is(th, td):nth-child(4),
+.rankings-table[data-hover-col="5"] :is(th, td):nth-child(5),
+.rankings-table[data-hover-col="6"] :is(th, td):nth-child(6),
+.rankings-table[data-hover-col="7"] :is(th, td):nth-child(7),
+.rankings-table[data-hover-col="8"] :is(th, td):nth-child(8),
+.rankings-table[data-hover-col="9"] :is(th, td):nth-child(9),
+.rankings-table[data-hover-col="10"] :is(th, td):nth-child(10),
+.rankings-table[data-hover-col="11"] :is(th, td):nth-child(11),
+.rankings-table[data-hover-col="12"] :is(th, td):nth-child(12),
+.rankings-table[data-hover-col="13"] :is(th, td):nth-child(13),
+.rankings-table[data-hover-col="14"] :is(th, td):nth-child(14),
+.rankings-table[data-hover-col="15"] :is(th, td):nth-child(15),
+.rankings-table[data-hover-col="16"] :is(th, td):nth-child(16),
+.rankings-table[data-hover-col="17"] :is(th, td):nth-child(17),
+.rankings-table[data-hover-col="18"] :is(th, td):nth-child(18) {
+  background-image: linear-gradient(var(--col-tint), var(--col-tint));
+}
+
+@media (max-width: 640px) {
+  /* Pinning Rank and Team would leave no room for numbers on a phone, so only Team
+     stays pinned; Rank scrolls away with the other columns. */
+  .rankings-table .col-rank {
+    left: auto;
+    width: 44px;
+    min-width: 44px;
+    max-width: 44px;
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+
+  .rankings-table .col-team {
+    left: 0;
+    min-width: 128px;
+    max-width: 150px;
+    white-space: normal;
+  }
+
+  .rankings-table .team-link {
+    gap: 6px;
+    font-size: 0.86rem;
+  }
+
+  .rankings-table .team-logo {
+    width: 22px;
+    height: 22px;
+  }
+
+  .rankings-conference {
+    width: 100%;
+  }
+
+  .rankings-conference select {
+    flex: 1;
+    min-width: 0;
+  }
 }
 
 .projection-note {
@@ -168,6 +387,12 @@ a.team-link:hover {
 .sort-button:hover,
 .sort-button.active {
   color: #1d4ed8;
+}
+
+.sort-button:focus-visible {
+  outline: 2px solid #1d4ed8;
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
 .sort-arrow {
